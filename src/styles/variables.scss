@@ -1,0 +1,57 @@
+// @use 'sass:math';
+
+// theme colors
+// $primary: #0077FF;
+$primary: #1890ff;
+
+// colors
+$black: #333333;
+$white: #FFFFFF;
+$white-side: #E7F0FF;
+
+
+
+$blue: #324157;
+$light-blue: #3A71A8;
+$grey: #F7F8FA;
+$light-grey: #F2F3F5;
+$dark-grey: #B3BCC5;
+$red: #C03639;
+$pink: #E65D6E;
+$green: #30B08F;
+
+// font
+$font-family-base: 'MicrosoftYaHei';
+
+// typography 
+$font-size: 16px;
+$font-logo: 20px;
+$font-menu-icon: 20px;
+// $font-size-header: 18px;
+// $font-size-header-ico: 20px;
+// // $font-size-large: 16px;
+// $font-size-small: 14px;
+
+
+// desktop
+$headerHeight: 50px;
+$sidebarWidth: 244px;
+
+$sidebarCollapseWidth: 64px;
+
+// sidebar
+
+$menuBg: #1F223A;
+$menuHover: #252B42;
+// mobile 
+
+// :export {
+// menuText: $menuText;
+// menuActiveText: $menuActiveText;
+// subMenuActiveText: $subMenuActiveText;
+// menuBg: $menuBg;
+// menuHover: $menuHover;
+// subMenuBg: $subMenuBg;
+// subMenuHover: $subMenuHover;
+// sideBarWidth: $sideBarWidth;
+// }
