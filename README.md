@@ -19,8 +19,14 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 
 
 ## 使用技术
+- vue3
+- vue-rouer
+- vuex
+- vite
+- TS
 - sass
 - postcss
 - eslist + pertier
 - mockjs
 - axios
+- mockjs

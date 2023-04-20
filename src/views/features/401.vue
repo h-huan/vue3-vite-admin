@@ -2,12 +2,12 @@
  * @Author: h-huan
  * @Date: 2023-04-06 14:23:33
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-19 11:56:13
+ * @LastEditTime: 2023-04-20 17:01:52
  * @Description: 
 -->
 <template>
   <div class="errPage-container">
-    <el-button icon="arrow-left" class="pan-back-btn" @click="back">
+    <el-button class="pan-back-btn" @click="back">
       返回
     </el-button>
     <el-row>
@@ -80,41 +80,59 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
- .errPage-container {
-    width: 800px;
-    max-width: 100%;
-    margin: 100px auto;
-    .pan-back-btn {
-      background: #008489;
-      color: #fff;
-      border: none!important;
+.errPage-container {
+  width: 800px;
+  max-width: 100%;
+  margin: 100px auto;
+  color: $black;
+
+  .pan-back-btn {
+    background: #008489;
+    color: #fff;
+    border: none !important;
+  }
+
+  h1 {
+    margin: 40px 0;
+  }
+
+  h2 {
+    font-weight: bold;
+    margin: 20px 0;
+    font-size: 26px;
+  }
+
+  h6 {
+    font-weight: bold;
+    font-size: 12px;
+    margin: 24px 0;
+  }
+
+
+
+  .text-jumbo {
+    font-size: 60px;
+    font-weight: 700;
+    color: #484848;
+  }
+
+  .list-unstyled {
+    font-size: 14px;
+    padding-left: 40px;
+
+    li {
+      list-style: circle;
+      padding-bottom: 5px;
     }
-    .pan-gif {
-      margin: 0 auto;
-      display: block;
-    }
-    .pan-img {
-      display: block;
-      margin: 0 auto;
-      width: 100%;
-    }
-    .text-jumbo {
-      font-size: 60px;
-      font-weight: 700;
-      color: #484848;
-    }
-    .list-unstyled {
-      font-size: 14px;
-      li {
-        padding-bottom: 5px;
-      }
-      a {
-        color: #008489;
-        text-decoration: none;
-        &:hover {
-          text-decoration: underline;
-        }
+
+    a {
+      color: #008489;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
+}
 </style>

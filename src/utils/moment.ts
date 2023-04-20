@@ -1,50 +1,90 @@
-const DateFormatPipe = (date: Date, type: String) => {
-  if (date) {
-    let year, month, day, HH, mm, ss;
-    let time = new Date(date);
-    let timeDate;
-    year = time.getFullYear(); // 年
-    month = time.getMonth() + 1; // 月
-    day = time.getDate(); // 日
-    HH = time.getHours(); // 时
-    mm = time.getMinutes(); // 分
-    ss = time.getSeconds(); // 秒
+/*
+ * @Author: h-huan
+ * @Date: 2023-03-30 19:32:54
+ * @LastEditors: h-huan
+ * @LastEditTime: 2023-04-20 17:04:18
+ * @Description: 
+ */
+import moment from "moment";
 
-    month = month < 10 ? '0' + month : month;
-    day = day < 10 ? '0' + day : day;
-    HH = HH < 10 ? '0' + HH : HH; // 时
-    mm = mm < 10 ? '0' + mm : mm; // 分
-    ss = ss < 10 ? '0' + ss : ss; // 秒
+// http://momentjs.cn/
 
-    switch (type) {
-      case 'yyyy':
-        timeDate = String(year);
-        break;
-      case 'yyyy-MM':
-        timeDate = year + '-' + month;
-        break;
-      case 'yyyy-MM-dd':
-        timeDate = year + '-' + month + '-' + day;
-        break;
-      case 'yyyy/MM/dd':
-        timeDate = year + '/' + month + '/' + day;
-        break;
-      case 'yyyy-MM-dd HH:mm:ss':
-        timeDate = year + '-' + month + '-' + day + '' + HH + ':' + mm + ':' + ss;
-        break;
-      case 'HH:mm:ss':
-        timeDate = HH + ':' + mm + ':' + ss;
-        break;
-      case 'MM':
-        timeDate = String(month);
-        break;
-      default:
-        timeDate = year + '-' + month + '-' + day;
-        break;
-    }
-    return timeDate;
-  } else {
-    return '';
+// 获取今日的开始结束时间
+export function getToday({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+  let obj = {
+    starttime: '',
+    endtime: ''
   }
-};
-export default DateFormatPipe;
+  obj.starttime = moment(moment(date, format).startOf("day").valueOf()).format(format);
+  obj.endtime = moment(moment(date, format).valueOf()).format(format);
+  return obj
+}
+// 获取昨日的开始结束时间
+export function getYesterday({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+  let obj = {
+    starttime: '',
+    endtime: ''
+  }
+  obj.starttime = moment(moment(date, format).add(-1, 'days').startOf("day").valueOf()).format(format);
+  obj.endtime = moment(moment(date, format).add(-1, 'days').endOf('day').valueOf()).format(format);
+  return obj
+}
+
+// 获取当前周的开始结束时间
+export function getCurrWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+  let obj = {
+    starttime: '',
+    endtime: ''
+  }
+  obj.starttime = moment(moment().week(moment(date, format).week()).startOf('week').add(1, 'days').valueOf()).format(format)
+  obj.endtime = moment(moment().week(moment(date, format).week()).endOf('week').add(1, 'days').valueOf()).format(format);
+  return obj
+}
+
+// 获取上一周的开始结束时间
+export function getLastWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+  let obj = {
+    starttime: '',
+    endtime: ''
+  }
+  obj.starttime = moment(moment().week(moment(date, format).week() - 1).startOf('week').add(1, 'days').valueOf()).format(format)
+  obj.endtime = moment(moment().week(moment(date, format).week() - 1).endOf('week').add(1, 'days').valueOf()).format(format);
+  return obj
+}
+
+// 获取下一周的开始结束时间
+export function getWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+  let obj = {
+    starttime: '',
+    endtime: ''
+  }
+  obj.starttime = moment(moment().week(moment(date, format).week() + 1).startOf('week').add(1, 'days').valueOf()).format(format)
+  obj.endtime = moment(moment().week(moment(date, format).week() + 1).endOf('week').add(1, 'days').valueOf()).format(format);
+  return obj
+}
+
+// 获取当前月的开始结束时间
+export function getCurrMonthDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+  let obj = {
+    starttime: '',
+    endtime: ''
+  }
+  obj.starttime = moment(moment().month(moment(date, format).month()).startOf('month').valueOf()).format(format);
+  obj.endtime = moment(moment().month(moment(date, format).month()).endOf('month').valueOf()).format(format);
+  return obj
+}
+
+export function momentFormat(date, format){
+  return moment(date).format(format)
+}
+
+//   // 获取上一个月的开始结束时间
+// export function  getLastMonthDays(date="",format="YYYY-MM-DD HH:mm:ss") {
+//     let obj = {
+//         starttime: '',
+//         endtime: ''
+//     }
+//     obj.starttime = moment(moment().month(moment().month() - 1).startOf('month').valueOf()).format('YYYY-MM-DD HH:mm:ss');
+//     obj.endtime = moment(moment().month(moment().month() - 1).endOf('month').valueOf()).format('YYYY-MM-DD HH:mm:ss');
+//     return obj
+// }
