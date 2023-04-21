@@ -2,30 +2,32 @@
  * @Author: h-huan
  * @Date: 2023-04-06 14:39:49
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-20 17:39:09
+ * @LastEditTime: 2023-04-21 17:07:26
  * @Description: 
 -->
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import type { FormInstance } from 'element-plus'
-import { login } from "/@/api/login";
-import { md5 } from '/@/utils/encrypt'
-import { ElNotification } from 'element-plus'
+import { FormInstance, ElNotification } from 'element-plus'
+// import { login, getValidateCode } from "/@/api/login";
 
-import { useStore } from 'vuex';
+import { useActions } from "/@/utils/useStore";
+
 
 export default defineComponent({
   name: 'login',
   setup() {
     const router = useRouter()
-    const store = useStore();
     const ruleFormRef = ref<FormInstance>()
+    const storeActions: any = useActions('User', ['Login'])
+
+    console.log(storeActions);
+
 
     const state = reactive({
       form: {
-        loginName: '',
-        password: '',
+        loginName: 'admin',
+        password: '123456',
         verification: '',
       },
       rules: ({
@@ -44,41 +46,42 @@ export default defineComponent({
     })
 
     // 获取验证码
-    const getCode = function () {
-      state.verification = '/inquiry/component/common/com_getValidateCode.i?TS=' + Math.random()
-    }
-    getCode()
+    // const getCode = function () {
+    //   state.verification = getValidateCode()
+    // }
+    // getCode()
 
 
     const submitForm = async (formEl: FormInstance | undefined) => {
-      store.dispatch('User/Login', state.form)
       if (!formEl) return
       await formEl.validate((valid, fields) => {
         if (valid) {
           let data = {
             loginName: state.form.loginName,
-            password: md5(state.form.password),
-            verification: state.form.verification,
+            password: state.form.password,
+            // verification: state.form.verification,
             rememberMe: state.rememberMe
           }
 
-          login(data).then((res) => {
-            console.log("res", res)
-            if (res.data == "0") {
-              ElNotification.success('登录成功')
-              // 保存用户信息
-              store.dispatch('User/Login', data)
-              router.push({ path: '/' })
-              return
-            } else if (res.data == "4") {
-              ElNotification.error('验证码输入错误！')
-            } else if (res.data == "5") {
-              ElNotification.error('用户名或密码输入错误！')
-            } else {
-              ElNotification.error('登录异常！')
-            }
-            getCode()
+          storeActions.Login(data)
+          storeActions.Login(data).then((res) => {
+            console.log(res);
+
+            ElNotification.success('登录成功')
+            router.push({ path: '/' })
+          }).catch(() => {
+            ElNotification.error('登录异常！')
           })
+          // login(data).then((res) => {
+          //   if (res.data == "200") {
+          //     ElNotification.success('登录成功')
+
+          //     router.push({ path: '/' })
+          //     return
+          //   } else {
+          //     ElNotification.error('登录异常！')
+          //   }
+          // })
         } else {
           console.log('error submit!', fields)
         }
@@ -93,7 +96,6 @@ export default defineComponent({
 
     return {
       ruleFormRef,
-      getCode,
       submitForm,
       changeType,
       ...toRefs(state)
@@ -104,39 +106,38 @@ export default defineComponent({
 
 <template>
   <div class="login-wrapper">
-    <div class="login-logo"></div>
+    <!-- <div class="login-logo"></div> -->
     <div class="login-container">
-      <div class="login-title">
+      <!-- <div class="login-title">
         <img src="/images/login-title.png" alt="每一个人因中医而健康">
-      </div>
-      <div class="login-box">
-        <el-form ref="ruleFormRef" :model="form" :rules="rules" class="login-form">
-          <h3>欢迎登录</h3>
-          <el-form-item prop="loginName">
-            <el-input v-model="form.loginName" placeholder="请输入用户名">
-              <template #prefix>
-                <div class="login-icon">
-                  <i class="iconfont icon-icon-yhm"></i>
-                </div>
-              </template>
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input v-model="form.password" placeholder="请输入密码" :type="pwdType">
-              <template #prefix>
-                <div class="login-icon">
-                  <i class="iconfont icon-icon-mm"></i>
-                </div>
-              </template>
-              <template #suffix>
-                <div class="login-icon login-icon_show">
-                  <i class="iconfont" :class="[flag ? 'icon-icon-xianshi' : 'icon-icon-yc']" autocomplete="auto"
-                    @click="changeType"></i>
-                </div>
-              </template>
-            </el-input>
-          </el-form-item>
-          <el-form-item class="code" prop="verification">
+      </div> -->
+      <el-form ref="ruleFormRef" :model="form" :rules="rules" class="login-form">
+        <h3>欢迎登录</h3>
+        <el-form-item prop="loginName">
+          <el-input v-model="form.loginName" placeholder="请输入用户名">
+            <template #prefix>
+              <div class="login-icon">
+                <i class="iconfont icon-yonghu"></i>
+              </div>
+            </template>
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="form.password" placeholder="请输入密码" :type="pwdType">
+            <template #prefix>
+              <div class="login-icon">
+                <i class="iconfont icon-mima"></i>
+              </div>
+            </template>
+            <template #suffix>
+              <div class="login-icon login-icon_show">
+                <i class="iconfont" :class="[flag ? 'icon-yanjing_yincang' : 'icon-yanjing_xianshi']" autocomplete="auto"
+                  @click="changeType"></i>
+              </div>
+            </template>
+          </el-input>
+        </el-form-item>
+        <!-- <el-form-item class="code" prop="verification">
             <el-input v-model="form.verification" placeholder="请输入验证码">
               <template #prefix>
                 <div class="login-icon">
@@ -145,16 +146,15 @@ export default defineComponent({
               </template>
             </el-input>
             <div class="authCode"><img :src="verification" @click="getCode()"></div>
-          </el-form-item>
-          <el-form-item>
-            <div @click="submitForm(ruleFormRef)" class="login-but">登录</div>
-          </el-form-item>
-          <div class="login-tool">
-            <el-checkbox :checked="rememberMe" @click="rememberMe = !rememberMe">自动登录</el-checkbox>
-            <a href="javascript:void(0)">忘记密码？</a>
-          </div>
-        </el-form>
-      </div>
+          </el-form-item> -->
+        <el-form-item>
+          <div @click="submitForm(ruleFormRef)" class="login-but">登录</div>
+        </el-form-item>
+        <div class="login-tool">
+          <el-checkbox :checked="rememberMe" @click="rememberMe = !rememberMe">自动登录</el-checkbox>
+          <a href="javascript:void(0)">忘记密码？</a>
+        </div>
+      </el-form>
     </div>
   </div>
 </template>
@@ -164,71 +164,18 @@ export default defineComponent({
 
 .login-wrapper {
   @include relative;
-  background: url('/images/login-bg.png') #F5F6FA no-repeat;
+  background: url('/images/background.png') #F5F6FA no-repeat;
   background-size: 100%;
 }
 
-.login-logo {
-  position: absolute;
-  top: 73px;
-  left: 110px;
-  width: 228px;
-  height: 86px;
-  background: url('/images/login-logo.png') no-repeat;
-  animation: logo 1s ease-out;
-}
-
-@keyframes logo {
-  0% {
-    position: absolute;
-    top: 0;
-    opacity: 0;
-  }
-
-  100% {
-    position: absolute;
-    top: 73px;
-    opacity: 1;
-  }
-}
-
-
-.login-container {
-  @include centerAbsT6;
-
-  .login-title {
-    margin: 0 0 68px 212px;
-    animation: title 1s ease-out;
-  }
-
-  @keyframes title {
-    0% {
-      margin: 0 0 68px 0;
-      opacity: 0;
-    }
-
-    100% {
-      margin: 0 0 68px 212px;
-      opacity: 1;
-    }
-  }
-
-  .login-box {
-    width: 1454px;
-    height: 559px;
-    background: url('/images/login-form.png') no-repeat;
-  }
-
-}
-
-
 .login-form {
   width: 390px;
-  height: 446px;
+  // height: 446px;
   background: $white;
-  @include centerAbsL8;
+  @include centerAbs;
   padding: 35px;
   box-sizing: border-box;
+  border-radius: 10px;
 
   animation: from 0.5s linear;
 
@@ -290,7 +237,7 @@ export default defineComponent({
         color: $login-icon-show;
 
         i {
-          font-size: 17px;
+          font-size: 20px;
         }
       }
 

@@ -82,7 +82,7 @@ export default defineComponent({
   text-align: center;
   line-height: $headerHeight;
   font-weight: bold;
-  font-size: $font-logo;
+  font-size: $font-side-logo;
   box-sizing: border-box;
   color: $white-side;
 }

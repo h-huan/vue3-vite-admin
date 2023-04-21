@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-17 15:01:17
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-18 16:29:23
+ * @LastEditTime: 2023-04-21 17:05:42
  * @Description: 
  */
 
@@ -11,7 +11,7 @@ import { RootState } from "../type"
 import { getToken, setToken, removeToken } from '/@/utils/auth'
 // import { login, getInfo, logout } from '@/api/login'
 import { md5 } from '/@/utils/encrypt'
-
+import { login } from "/@/api/login";
 
 // 定义 用户接口
 export interface UserProps {
@@ -58,14 +58,35 @@ export const User: Module<RootProps, RootState> = {
   actions: {
     Login({ commit }, userInfo) {
       const rememberMe = userInfo.rememberMe
-       // 保存token
-        setToken(md5(userInfo.loginName), rememberMe)
-        commit('SET_TOKEN', md5(userInfo.loginName))
 
-        // setUserInfo(res.user, commit)
-        setUserInfo(userInfo, commit)
+      userInfo.password=md5(userInfo.password)
+
+
+       // 保存token
+        // setToken(md5(userInfo.loginName), rememberMe)
+        // commit('SET_TOKEN', md5(userInfo.loginName))
+
+        // // setUserInfo(res.user, commit)
+        // setUserInfo(userInfo, commit)
         // 第一次加载菜单时用到， 具体见 src 目录下的 permission.js
         // commit('SET_LOAD_MENUS', true);
+
+        return new Promise((resolve, reject) => {
+          login(userInfo).then(res => {
+            console.log('userInfo',userInfo);
+            
+            setToken(md5(userInfo.loginName), rememberMe)
+            commit('SET_TOKEN', md5(userInfo.loginName))
+
+            setUserInfo(userInfo, commit)
+            // 第一次加载菜单时用到， 具体见 src 目录下的 permission.js
+            // commit('SET_LOAD_MENUS', true)
+            resolve(res)
+          }).catch(error => {
+            reject(error)
+          })
+        })
+
   
     },
     // 获取用户信息
@@ -79,19 +100,16 @@ export const User: Module<RootProps, RootState> = {
     //     })
     //   })
     // },
-    // 退出
+    // 退出登录
     LogOut({ commit }) {
-      console.log(1);
-      
-     
-      return  logOut(commit)
+      return  toLogOut(commit)
     },
   },
   getters: {}
 };
 
 // 退出登录
-export const logOut = (commit) => {
+export const toLogOut = (commit) => {
   commit('SET_TOKEN', '')
   commit('SET_ROLES', [])
   removeToken()
