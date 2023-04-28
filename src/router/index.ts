@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-25 11:58:23
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-21 17:18:18
+ * @LastEditTime: 2023-04-28 09:37:34
  * @Description: 
  */
 import { createRouter, createWebHashHistory, RouterOptions, Router } from 'vue-router'
@@ -26,7 +26,7 @@ const router: Router = createRouter(options)
 
 router.beforeEach((to, from) => {
   if (to.meta.title) {
-    document.title = to.meta.title + ' - ' + "中医智微"
+    document.title = to.meta.title + ' - ' + "admin"
   }
   start()
   

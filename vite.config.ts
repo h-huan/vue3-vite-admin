@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-21 10:05:06
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-21 17:15:46
+ * @LastEditTime: 2023-04-28 09:45:28
  * @Description: 
  */
 import { loadEnv, defineConfig } from 'vite'
@@ -68,7 +68,8 @@ export default defineConfig(({ mode })=>{
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: '@import "/@/styles/variables.scss";'
+        additionalData: `@use "/@/styles/element/index.scss" as *;@use "/@/styles/variables.scss" as *;`
+        // additionalData: '@import "/@/styles/variables.scss";'
       }
     }
   }

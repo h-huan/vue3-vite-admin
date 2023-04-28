@@ -2,15 +2,19 @@
  * @Author: h-huan
  * @Date: 2023-03-30 19:32:54
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-20 17:04:18
+ * @LastEditTime: 2023-04-28 09:36:13
  * @Description: 
  */
 import moment from "moment";
 
 // http://momentjs.cn/
 
-// 获取今日的开始结束时间
-export function getToday({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+/**
+ * @description: 获取今日的开始结束时间
+ * @param {*} param1
+ * @return {*}
+ */
+function getToday({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   let obj = {
     starttime: '',
     endtime: ''
@@ -19,8 +23,12 @@ export function getToday({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   obj.endtime = moment(moment(date, format).valueOf()).format(format);
   return obj
 }
-// 获取昨日的开始结束时间
-export function getYesterday({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+/**
+ * @description: 获取昨日的开始结束时间
+ * @param {*} param1
+ * @return {*}
+ */
+function getYesterday({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   let obj = {
     starttime: '',
     endtime: ''
@@ -30,8 +38,12 @@ export function getYesterday({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   return obj
 }
 
-// 获取当前周的开始结束时间
-export function getCurrWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+/**
+ * @description: 获取当前周的开始结束时间
+ * @param {*} param1
+ * @return {*}
+ */
+function getCurrWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   let obj = {
     starttime: '',
     endtime: ''
@@ -41,8 +53,12 @@ export function getCurrWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   return obj
 }
 
-// 获取上一周的开始结束时间
-export function getLastWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+/**
+ * @description: 获取上一周开始和结束时间
+ * @param {*} param1
+ * @return {*}
+ */
+function getLastWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   let obj = {
     starttime: '',
     endtime: ''
@@ -52,8 +68,12 @@ export function getLastWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   return obj
 }
 
-// 获取下一周的开始结束时间
-export function getWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+/**
+ * @description: 获取下一周开始和结束时间
+ * @param {*} param1
+ * @return {*}
+ */
+function getWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   let obj = {
     starttime: '',
     endtime: ''
@@ -63,8 +83,13 @@ export function getWeekDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   return obj
 }
 
-// 获取当前月的开始结束时间
-export function getCurrMonthDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
+
+/**
+ * @description: 获取当前月的开始结束时间
+ * @param {*} param1
+ * @return {*}
+ */
+function getCurrMonthDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   let obj = {
     starttime: '',
     endtime: ''
@@ -74,8 +99,24 @@ export function getCurrMonthDays({date = "", format = "YYYY-MM-DD HH:mm:ss"}) {
   return obj
 }
 
-export function momentFormat(date, format){
+/**
+ * @description: 格式化时间
+ * @param {*} date
+ * @param {*} format
+ * @return {*}
+ */
+function momentFormat(date, format){
   return moment(date).format(format)
+}
+
+export {
+  getToday,
+  getYesterday,
+  getCurrWeekDays,
+  getLastWeekDays,
+  getWeekDays,
+  getCurrMonthDays,
+  momentFormat
 }
 
 //   // 获取上一个月的开始结束时间

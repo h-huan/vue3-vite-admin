@@ -1,14 +1,14 @@
 /*
  * @Author: h-huan
- * @Date: 2023-04-20 17:04:03
+ * @Date: 2023-03-31 15:14:25
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-20 17:06:52
+ * @LastEditTime: 2023-03-31 15:14:49
  * @Description: 
  */
-
-
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+
+
 
 //全局进度条的配置
 NProgress.configure({
