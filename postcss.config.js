@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-24 11:21:41
  * @LastEditors: h-huan
- * @LastEditTime: 2023-03-24 16:17:42
+ * @LastEditTime: 2023-05-05 18:51:15
  * @Description: 
  */
 export default {
@@ -10,12 +10,11 @@ export default {
     // 添加浏览器前缀
     autoprefixer: {
       overrideBrowserslist: [
-        'Android 4.1',
-        'iOS 7.1',
-        'Chrome > 31',
-        'ff > 31',
-        'ie >= 8',
-        'last 10 versions' // 所有主流浏览器最近10版本用
+        "Android 4.1",
+        "iOS 7.1",
+        "Chrome > 62",
+        "ff > 31",
+        "ie >= 8"
       ],
       grid: true
     },

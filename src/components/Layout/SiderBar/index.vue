@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-06 14:58:55
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-19 19:02:00
+ * @LastEditTime: 2023-05-06 11:45:14
  * @Description: 
 -->
 <script lang="ts">
@@ -76,13 +76,15 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@import '/@/styles/variables.scss';
+
 .logo {
   height: $headerHeight;
   width: $sidebarWidth;
   text-align: center;
   line-height: $headerHeight;
   font-weight: bold;
-  font-size: $font-side-logo;
+  font-size: $font-size-side;
   box-sizing: border-box;
   color: $white-side;
 }
@@ -95,7 +97,7 @@ export default defineComponent({
   }
 
   .hh-menu-icon {
-    font-size: $font-menu-icon;
+    font-size: $font-size-side;
   }
 
 

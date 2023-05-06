@@ -44,6 +44,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@import '/@/styles/variables.scss';
 @import "/@/styles/mixins.scss";
 
 .app-wrapper {

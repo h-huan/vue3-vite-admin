@@ -1,38 +1,24 @@
 // @use 'sass:math';
 
 // theme colors
-// $primary: #0077FF;
-$primary: #1890ff;
-
-// colors
+$primary: #0077ff;
 $black: #333333;
 $white: #FFFFFF;
+$red: #f56c6c;
+$green: #67c23a;
+$blue: #0077ff;
+$yellow: #e6a23c;
+$grey: #909399;
+
+// colors
 $white-side: #E7F0FF;
-
-
-
-$red: #FF7171;
-$green: #69D4CC;
-$blue: #629BF7;
-$yellow: #FFB232;
-$light-blue: #3A71A8;
-$grey: #F7F8FA;
-$light-grey: #F2F3F5;
-$dark-grey: #B3BCC5;
-$pink: #E65D6E;
-
 
 // font
 $font-family-base: 'MicrosoftYaHei';
 
 // typography 
 $font-size: 16px;
-$font-side-logo: 20px;
-$font-menu-icon: 20px;
-// $font-size-header: 18px;
-// $font-size-header-ico: 20px;
-// // $font-size-large: 16px;
-// $font-size-small: 14px;
+$font-size-side: 20px;
 
 // logon color
 $login-icon: #AAAAAA;
@@ -41,26 +27,12 @@ $login-icon-bg: #AAAAAA;
 $login-but-bg: linear-gradient(-90deg, #057EE8, #1263E0);
 $login-but-bg_hover: linear-gradient(180deg, rgb(55, 151, 237) 0%, rgb(65, 131, 230) 100%);
 
-
 // desktop
 $headerHeight: 50px;
 $sidebarWidth: 244px;
-
 $sidebarCollapseWidth: 64px;
 
 // sidebar
-
 $menuBg: #1F223A;
-$menuHover: #252B42;
+// $menuHover: #252B42;
 // mobile 
-
-// :export {
-// menuText: $menuText;
-// menuActiveText: $menuActiveText;
-// subMenuActiveText: $subMenuActiveText;
-// menuBg: $menuBg;
-// menuHover: $menuHover;
-// subMenuBg: $subMenuBg;
-// subMenuHover: $subMenuHover;
-// sideBarWidth: $sideBarWidth;
-// }

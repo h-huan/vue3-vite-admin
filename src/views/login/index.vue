@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-06 14:39:49
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-21 17:07:26
+ * @LastEditTime: 2023-05-06 11:49:41
  * @Description: 
 -->
 <script lang="ts">
@@ -131,7 +131,7 @@ export default defineComponent({
             </template>
             <template #suffix>
               <div class="login-icon login-icon_show">
-                <i class="iconfont" :class="[flag ? 'icon-yanjing_yincang' : 'icon-yanjing_xianshi']" autocomplete="auto"
+                <i class="iconfont" :class="[flag ? 'icon-yanjing_xianshi' : 'icon-yanjing_yincang']" autocomplete="auto"
                   @click="changeType"></i>
               </div>
             </template>
@@ -160,6 +160,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss">
+@import '/@/styles/variables.scss';
 @import '/@/styles/mixins.scss';
 
 .login-wrapper {

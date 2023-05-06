@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-21 10:05:06
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-28 09:45:28
+ * @LastEditTime: 2023-05-06 11:02:50
  * @Description: 
  */
 import { loadEnv, defineConfig } from 'vite'
@@ -10,7 +10,16 @@ import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import legacy from '@vitejs/plugin-legacy'
 
+// 使用代理
 import { viteMockServe } from "vite-plugin-mock";
+
+// 修改主题颜色
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
+// gzip压缩
+import viteCompression from "vite-plugin-compression";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode })=>{
@@ -19,8 +28,23 @@ export default defineConfig(({ mode })=>{
   return {
   root: path.resolve(__dirname),
   base: './',
+   /* 配置组件中通用变量 */
+   resolve: {
+    alias: {
+      '/@': path.resolve(__dirname,'src')
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "/@/styles/element/index.scss" as *;`,
+      }
+    }
+  },
   plugins: [
     vue(),
+    // gzip
+    viteCompression(),
     // 引入mockjs
     viteMockServe({
       mockPath:"./mock", //解析路径
@@ -31,12 +55,20 @@ export default defineConfig(({ mode })=>{
       targets: ['chrome 52', 'not IE 11'],
       additionalLegacyPolyfills: ['regenerator-runtime/runtime']
     }),
+    // 修改主题
+    AutoImport({
+			resolvers: [ElementPlusResolver({
+				// 自动引入修改主题色添加这一行，使用预处理样式，不添加将会导致使用ElMessage，ElNotification等组件时默认的主题色会覆盖自定义的主题色
+				importStyle: "sass",
+			})],
+		}),
+		Components({
+			resolvers: [ElementPlusResolver({
+				// 自动引入修改主题色添加这一行，使用预处理样式
+				importStyle: "sass",
+			})],
+		})
   ],
-  resolve: {
-    alias: {
-      '/@': path.resolve(__dirname,'src')
-    }
-  },
   // 打包配置
   build: {
     target: 'modules',
@@ -64,14 +96,6 @@ export default defineConfig(({ mode })=>{
       }
     }
   },
-  /* 配置组件中通用变量 */
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@use "/@/styles/element/index.scss" as *;@use "/@/styles/variables.scss" as *;`
-        // additionalData: '@import "/@/styles/variables.scss";'
-      }
-    }
-  }
+ 
   }
 })

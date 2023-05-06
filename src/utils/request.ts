@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-24 17:06:08
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-26 09:54:17
+ * @LastEditTime: 2023-05-05 18:53:35
  * @Description: 
  */
 
@@ -18,7 +18,7 @@ import axios from 'axios'
 
 const router = useRouter()
 //创建axios实例
-axios.defaults.baseURL= process.env.NODE_ENV === 'production' ? process.env.VUE_APP_BASE_API : '/';//基准地址
+axios.defaults.baseURL= process.env.NODE_ENV === 'production' ? process.env.VITE_BASE_API : '/';//基准地址
  // 如果请求话费了超过 `timeout` 的时间，请求将被中断
 axios.defaults.timeout = 5000;
 // 表示跨域请求时是否需要使用凭证
@@ -48,11 +48,11 @@ axios.interceptors.response.use((response)=>{
         const reader = new FileReader()
         reader.readAsText(error.response, 'utf-8')
         reader.onload = function(e) {
-          const errorMsg = JSON.parse(reader.result).message
-          ElNotification.error({
-            title: errorMsg,
-            duration: 5000
-          })
+          // const errorMsg = JSON.parse(reader.result).message
+          // ElNotification.error({
+          //   title: errorMsg,
+          //   duration: 5000
+          // })
         }
       } else {
         let code = 0

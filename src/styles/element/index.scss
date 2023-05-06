@@ -1,6 +1,7 @@
+// @/styles/element/index.scss
 @forward 'element-plus/theme-chalk/src/common/var.scss' with ($colors: ('white': #ffffff,
     'black': #333333,
-    'primary': ('base': #4d70ff,
+    'primary': ('base': #0077ff,
     ),
     'success': ('base': #67c23a,
     ),
@@ -14,4 +15,6 @@
     ),
   ));
 
+
+// 如果你想导入所有样式:
 // @use "element-plus/theme-chalk/src/index.scss" as *;
