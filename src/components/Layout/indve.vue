@@ -2,24 +2,28 @@
  * @Author: h-huan
  * @Date: 2023-04-02 16:58:47
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-19 16:50:59
+ * @LastEditTime: 2023-05-09 15:00:11
  * @Description: 
 -->
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
-import SideBar from './SiderBar/index.vue'
-import NavBar from './NavBar.vue'
-import TagsView from './TagsView.vue'
+import SideBar from './components/SiderBar/index.vue'
+import NavBar from './components/NavBar.vue'
+import TagsView from './components/TagsView.vue'
+import { useState } from "/@/hooks/useStore";
 
 export default defineComponent({
   name: 'Layout',
   components: {
     SideBar,
-    NavBar
+    NavBar,
+    TagsView
   },
   setup() {
-    const state = reactive({
 
+    const appState: any = useState('App', ['sidebar'])
+    const state = reactive({
+      hideSidebar: appState.sidebar
     })
     return {
       ...toRefs(state)
@@ -29,7 +33,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="app-wrapper">
+  <div class="app-wrapper" :class="[hideSidebar ? '' : 'hideSidebar']">
     <SideBar class="sidebar-container"></SideBar>
     <div class="main-container">
       <div class="fixed-header">
@@ -50,8 +54,6 @@ export default defineComponent({
 .app-wrapper {
   @include clearfix;
   position: relative;
-  height: 100%;
-  width: 100%;
 
   .sidebar-container {
     @include clearfix;
@@ -60,16 +62,28 @@ export default defineComponent({
     bottom: 0;
     width: $sidebarWidth;
     transition: width 0.28s;
-    height: 100%;
-    overflow: height;
     background-color: $menuBg;
+    box-sizing: border-box;
   }
 
   .main-container {
-    transition: margin-left .28s;
-    margin-left: $sidebarWidth;
+    transition: padding-left .28s;
+    padding-left: $sidebarWidth;
     position: relative;
+    width: 100%;
     min-height: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.hideSidebar {
+  .sidebar-container {
+    width: 64px;
+  }
+
+  .main-container {
+    padding-left: 64px;
+    // width: calc(100% - 54px)
   }
 }
 </style>

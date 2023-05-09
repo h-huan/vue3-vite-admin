@@ -2,16 +2,15 @@
  * @Author: h-huan
  * @Date: 2023-04-06 14:39:49
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-06 11:49:41
+ * @LastEditTime: 2023-05-09 17:08:42
  * @Description: 
 -->
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import { FormInstance, ElNotification } from 'element-plus'
-// import { login, getValidateCode } from "/@/api/login";
 
-import { useActions } from "/@/utils/useStore";
+import { useActions } from "/@/hooks/useStore";
 
 
 export default defineComponent({
@@ -20,9 +19,6 @@ export default defineComponent({
     const router = useRouter()
     const ruleFormRef = ref<FormInstance>()
     const storeActions: any = useActions('User', ['Login'])
-
-    console.log(storeActions);
-
 
     const state = reactive({
       form: {
@@ -63,25 +59,12 @@ export default defineComponent({
             rememberMe: state.rememberMe
           }
 
-          storeActions.Login(data)
           storeActions.Login(data).then((res) => {
-            console.log(res);
-
             ElNotification.success('登录成功')
             router.push({ path: '/' })
           }).catch(() => {
             ElNotification.error('登录异常！')
           })
-          // login(data).then((res) => {
-          //   if (res.data == "200") {
-          //     ElNotification.success('登录成功')
-
-          //     router.push({ path: '/' })
-          //     return
-          //   } else {
-          //     ElNotification.error('登录异常！')
-          //   }
-          // })
         } else {
           console.log('error submit!', fields)
         }

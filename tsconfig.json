@@ -4,7 +4,7 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
     "moduleResolution": "Node",
-    "strict": true,
+    "strict": false, // 严格模式
     "jsx": "preserve",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -27,8 +27,7 @@
     },
     "types": [
       "node",
-      "vite/client",
-      "./src/types"
+      "vite/client"
     ],
   },
   "include": [

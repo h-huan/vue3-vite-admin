@@ -2,18 +2,27 @@
  * @Author: h-huan
  * @Date: 2023-04-06 20:03:24
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-06 20:05:23
+ * @LastEditTime: 2023-05-09 15:55:58
  * @Description: 
 -->
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
+import { useState, useActions } from "/@/hooks/useStore";
 
 export default defineComponent({
   name: 'TagsView',
   setup() {
+    // const
     const state = reactive({
+      visible: false,
+      selectedTag: {},
     })
+
+    const visitedViews = () => {
+      // return this.$store.state.tagsView.visitedViews
+    }
     return {
+      visitedViews,
       ...toRefs(state)
     }
   }
@@ -22,7 +31,7 @@ export default defineComponent({
 
 <template>
   <div id="tags-view-container" class="tags-view-container">
-    <el-scrollbar>
+    <el-scrollbar class="tags-view-wrapper">
       <router-link to="" class="tags-view-item">
         <!-- {{ tag.title }}
             <span v-if="!tag.meta.affix" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" /> -->

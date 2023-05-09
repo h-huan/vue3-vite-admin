@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-24 17:30:06
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-28 09:38:33
+ * @LastEditTime: 2023-05-09 16:36:00
  * @Description: 
  */
 import request from '/@/utils/request'
@@ -27,8 +27,20 @@ export const getValidateCode = (data) => {
  */
 export const login = (data) => {
   return request({
-    url: "/api/login",
+    url: "/api/hhuan/login",
     method: 'POST',
     data
+  })
+}
+
+
+/**
+ * @description: 获取用户信息
+ * @return {*}
+ */
+export const getInfo = ()=> {
+  return request({
+    url: '/api/hhuan/info',
+    method: 'get'
   })
 }

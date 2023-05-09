@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-24 16:11:58
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-24 20:04:19
+ * @LastEditTime: 2023-05-09 11:13:25
  * @Description: 
 -->
 <script lang="ts">
@@ -19,7 +19,7 @@ export default defineComponent({
 
     const state = reactive({
       name: '',
-      iconList: [],
+      iconList: [] as any,
       prefixText: ''
     })
 
@@ -35,7 +35,7 @@ export default defineComponent({
       // state.iconList = icons
       getIconList()
       if (state.name) {
-        state.iconList = state.iconList.filter(item => item.includes(state.name))
+        state.iconList = state.iconList.filter((item: any) => item.includes(state.name))
       }
     }
 

@@ -2,19 +2,34 @@
  * @Author: h-huan
  * @Date: 2023-03-24 16:36:16
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-21 16:03:29
+ * @LastEditTime: 2023-05-09 17:00:48
  * @Description: 
  */
 import type { MockMethod } from 'vite-plugin-mock'
 
 export default [
   {
-    url: '/api/login', 
+    url: '/api/hhuan/login', 
     method: 'post',
     response: () => {
       return {
         code: 200,
         status: "success",
+      }
+    }
+  },
+  {
+    url: '/api/hhuan/info', 
+    method: 'get',
+    response: () => {
+      return {
+        code: 200,
+        status: "success",
+        data: {
+          loginName: "admin",
+          password: "123456",
+          roles:[]
+        }
       }
     }
   },

@@ -2,21 +2,21 @@
  * @Author: h-huan
  * @Date: 2023-03-24 17:06:08
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-05 18:53:35
+ * @LastEditTime: 2023-05-09 15:55:46
  * @Description: 
  */
 
 import { getToken } from '/@/utils/auth'
-import { useRouter } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import Cookies from 'js-cookie'
 import {store} from '/@/store/index'
+
+import router from '../router/index'
 
 //引入axios
 import axios from 'axios'
 
 
-const router = useRouter()
 //创建axios实例
 axios.defaults.baseURL= process.env.NODE_ENV === 'production' ? process.env.VITE_BASE_API : '/';//基准地址
  // 如果请求话费了超过 `timeout` 的时间，请求将被中断
@@ -67,7 +67,6 @@ axios.interceptors.response.use((response)=>{
             return Promise.reject(error)
           }
         }
-        console.log(code)
         if (code) {
           if (code === 401) {
             store.dispatch('User/LogOut').then(() => {

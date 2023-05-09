@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-25 11:58:23
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-28 09:37:34
+ * @LastEditTime: 2023-05-09 17:15:16
  * @Description: 
  */
 import { createRouter, createWebHashHistory, RouterOptions, Router } from 'vue-router'
@@ -11,6 +11,8 @@ import { createRouter, createWebHashHistory, RouterOptions, Router } from 'vue-r
 import {routes} from "./router";
 import { close, start } from '/@/utils/nprogress'
 import { getToken } from '/@/utils/auth'
+// import { usrGetters } from "vuex"
+import { store } from '/@/store'
 
 const whiteList = ['/login']// no redirect whitelist
 
@@ -23,7 +25,6 @@ const options: RouterOptions = {
 // Router是路由对象类型
 const router: Router = createRouter(options)
 
-
 router.beforeEach((to, from) => {
   if (to.meta.title) {
     document.title = to.meta.title + ' - ' + "admin"
@@ -34,12 +35,30 @@ router.beforeEach((to, from) => {
     // 已登录且要跳转的页面是登录页
     if (to.path === '/login') {
       close()
-      return { path: '/' }
+      return { path: '/' } // 相当于next() 
+    }else{
+      
+      if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
+        store.dispatch('User/GetInfo').then((res) => { // 拉取user_info
+          // 动态路由，拉取菜单
+          // loadMenus(next, to)
+        }).catch(() => {
+          store.dispatch('User/LogOut').then(() => {
+            location.reload() // 为了重新实例化vue-router对象 避免bug
+          })
+        })
+      // 登录时未拉取 菜单，在此处拉取
+      } else if (store.getters.loadMenus) {
+        // 修改成false，防止死循环
+        // store.dispatch('updateLoadMenus')
+        // loadMenus(next, to)
+      }
     }
   } else {
     /* has no token*/
     if (whiteList.indexOf(to.path) == -1) {
       close()
+      // 从定向到登录页
       return { path: `/login?redirect=${to.fullPath}` }
     }
   }
@@ -48,7 +67,6 @@ router.beforeEach((to, from) => {
 router.afterEach(() => {
   close()
 })
-
 
 // export const loadMenus = (next, to) => {
 //   buildMenus().then(res => {

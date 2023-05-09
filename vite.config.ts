@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-21 10:05:06
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-08 17:15:55
+ * @LastEditTime: 2023-05-09 11:15:53
  * @Description: 
  */
 import { loadEnv, defineConfig } from 'vite'
@@ -10,7 +10,7 @@ import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import legacy from '@vitejs/plugin-legacy'
 
-// 使用代理
+// mock
 import { viteMockServe } from "vite-plugin-mock";
 
 // 修改主题颜色
@@ -21,6 +21,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // gzip压缩
 import viteCompression from "vite-plugin-compression";
 
+// 生产环境引入element-plus
 import fullImportPlugin from './vitePlugin/fullImportPlugin'
 
 // https://vitejs.dev/config/
@@ -76,6 +77,7 @@ export default defineConfig(({ mode })=>{
     },
     server: {
       // true 为自动刷新， false 为手动刷新
+      host: "0.0.0.0",
       open: true,
       port: 3013,
       proxy: {

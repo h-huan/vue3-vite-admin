@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-24 10:35:18
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-28 09:21:38
+ * @LastEditTime: 2023-05-09 17:07:18
  * @Description: 
 -->
 <script lang="ts">
@@ -54,8 +54,6 @@ export default defineComponent({
     // 获取菜单列表
     const getMenuList = () => {
       getMenus().then((data: any) => {
-        console.log(data);
-
         state.dialogVisible = false
         state.form = defaultForm
         state.data = data.data.list
