@@ -2,14 +2,14 @@
  * @Author: h-huan
  * @Date: 2023-03-24 16:36:16
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 17:00:48
+ * @LastEditTime: 2023-05-09 17:37:14
  * @Description: 
  */
 import type { MockMethod } from 'vite-plugin-mock'
 
 export default [
   {
-    url: '/api/hhuan/login', 
+    url: '/mock/hhuan/login', 
     method: 'post',
     response: () => {
       return {
@@ -19,7 +19,7 @@ export default [
     }
   },
   {
-    url: '/api/hhuan/info', 
+    url: '/mock/hhuan/info', 
     method: 'get',
     response: () => {
       return {

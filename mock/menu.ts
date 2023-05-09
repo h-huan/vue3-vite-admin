@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-05-09 14:48:30
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 14:52:42
+ * @LastEditTime: 2023-05-09 17:37:16
  * @Description: 
  */
 
@@ -12,7 +12,7 @@ import type { MockMethod } from 'vite-plugin-mock'
 export default [
   {
     // 获取菜单
-    url: '/api/hhuan/menu/getMenuList', 
+    url: '/mock/hhuan/menu/getMenuList', 
     method: 'get',
     response: () => {
       return {

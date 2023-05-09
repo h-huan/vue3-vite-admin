@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-24 17:30:06
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 16:36:00
+ * @LastEditTime: 2023-05-09 17:37:37
  * @Description: 
  */
 import request from '/@/utils/request'
@@ -27,7 +27,7 @@ export const getValidateCode = (data) => {
  */
 export const login = (data) => {
   return request({
-    url: "/api/hhuan/login",
+    url: "/mock/hhuan/login",
     method: 'POST',
     data
   })
@@ -40,7 +40,7 @@ export const login = (data) => {
  */
 export const getInfo = ()=> {
   return request({
-    url: '/api/hhuan/info',
+    url: '/mock/hhuan/info',
     method: 'get'
   })
 }
