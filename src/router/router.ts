@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-27 09:07:46
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-06 15:43:56
+ * @LastEditTime: 2023-05-12 09:42:38
  * @Description: 
  */
 
@@ -31,16 +31,16 @@ export const routes: RouteRecordRaw[] = [
     path: '/login',
     component: () => import('/@/views/login/index.vue'),
   },
-  {
-    path: '/redirect',
-    component: Layout,
-    children: [
-      {
-        path: '/redirect/:path(.*)',
-        component: (resolve) => import('/@/views/features/redirect.vue',resolve)
-      }
-    ]
-  },
+  // {
+  //   path: '/redirect',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: '/redirect/:path(.*)',
+  //       component: (resolve) => import('/@/views/features/redirect.vue',resolve)
+  //     }
+  //   ]
+  // },
   {
     path: '/404',
     component: () => import('/@/views/features/404.vue'),
@@ -50,10 +50,10 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('/@/views/features/401.vue'),
   },
   {
-    name:RouteName.Home,
+    name: RouteName.Home,
     path: '/',
     component: Layout,
-    redirect: {name: 'Dashboard'},
+    redirect: { name: 'Dashboard' },
     children: [
       {
         name: 'Dashboard',

@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-06 14:39:49
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 17:08:42
+ * @LastEditTime: 2023-05-09 17:50:17
  * @Description: 
 -->
 <script lang="ts">
@@ -12,10 +12,14 @@ import { FormInstance, ElNotification } from 'element-plus'
 
 import { useActions } from "/@/hooks/useStore";
 
+import { hhH1 } from 'xxx-ui'
+
 
 export default defineComponent({
   name: 'login',
+  components: { hhH1 },
   setup() {
+
     const router = useRouter()
     const ruleFormRef = ref<FormInstance>()
     const storeActions: any = useActions('User', ['Login'])
@@ -88,13 +92,16 @@ export default defineComponent({
 </script>
 
 <template>
+  <hh-h1 msg="hello world">
+  </hh-h1>
   <div class="login-wrapper">
     <!-- <div class="login-logo"></div> -->
     <div class="login-container">
       <!-- <div class="login-title">
         <img src="/images/login-title.png" alt="每一个人因中医而健康">
       </div> -->
-      <el-form ref="ruleFormRef" :model="form" :rules="rules" class="login-form">
+      <el-form ref="ruleFormRef" :model="form" :rules="rules" class="login-form"
+        @keyup.enter.native="submitForm(ruleFormRef)">
         <h3>欢迎登录</h3>
         <el-form-item prop="loginName">
           <el-input v-model="form.loginName" placeholder="请输入用户名">

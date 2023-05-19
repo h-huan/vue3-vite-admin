@@ -2,15 +2,15 @@
  * @Author: h-huan
  * @Date: 2023-04-26 10:42:36
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-27 15:31:08
+ * @LastEditTime: 2023-05-12 09:40:00
  * @Description: 
 -->
 <script lang="ts">
 import { defineComponent, reactive, toRefs, ref, onMounted, nextTick } from 'vue'
 import type { FormInstance, FormRules, ElTable } from 'element-plus'
 import { ElNotification } from 'element-plus'
-import { add, del, getGroupListPage, addGroupRoleList } from '/@/api/system/group'
-import { getRoleListPage } from '/@/api/system/role'
+// import { add, del, getGroupListPage, addGroupRoleList } from '/@/api/system/group'
+// import { getRoleListPage } from '/@/api/system/role'
 
 const defaultForm = { groupName: null, description: null, }
 const defaultPagination = { pageSizes: [10, 20, 50, 100], pageNum: 1, pageSize: 10, total: 0, }
@@ -42,20 +42,20 @@ export default defineComponent({
 
     // 获取菜单列表
     const getGroupList = (pageNum, pageSize) => {
-      getGroupListPage({ pageNum, pageSize }).then((res: any) => {
-        state.dialogVisible = false
-        state.form = defaultForm
-        state.data = res.data.list
-        loading.value = false
-      })
+      // getGroupListPage({ pageNum, pageSize }).then((res: any) => {
+      //   state.dialogVisible = false
+      //   state.form = defaultForm
+      //   state.data = res.data.list
+      //   loading.value = false
+      // })
     }
     getGroupList(state.pagination.pageNum, state.pagination.pageSize)
     // 获取角色菜单
     const getRoleList = (pageNum?: number, pageSize?: number) => {
-      getRoleListPage({ pageNum, pageSize }).then(res => {
-        state.dataRole = res.data.list
-        loadingRole.value = false
-      })
+      // getRoleListPage({ pageNum, pageSize }).then(res => {
+      //   state.dataRole = res.data.list
+      //   loadingRole.value = false
+      // })
     }
     getRoleList(state.paginationRole.pageNum, state.paginationRole.pageSize)
     // 新增
@@ -73,14 +73,14 @@ export default defineComponent({
     // 删除全选组
     const toDel = (id?: number) => {
       if (id) {
-        del({ groupId: id }).then((res: any) => {
-          if (res.code === 0) {
-            getGroupList(state.pagination.pageNum, state.pagination.pageSize)
-            ElNotification.success('删除成功')
-            return
-          }
-          ElNotification.success('添加失败')
-        })
+        // del({ groupId: id }).then((res: any) => {
+        //   if (res.code === 0) {
+        //     getGroupList(state.pagination.pageNum, state.pagination.pageSize)
+        //     ElNotification.success('删除成功')
+        //     return
+        //   }
+        //   ElNotification.success('添加失败')
+        // })
       }
     }
     // 多选
@@ -113,10 +113,10 @@ export default defineComponent({
           //   getGroupList(state.pagination.pageNum, state.pagination.pageSize)
           // })
           // } else {
-          add(data).then((res: any) => {
-            if (res.code === 0) ElNotification.success('权限组添加成功')
-            getGroupList(state.pagination.pageNum, state.pagination.pageSize)
-          })
+          // add(data).then((res: any) => {
+          //   if (res.code === 0) ElNotification.success('权限组添加成功')
+          //   getGroupList(state.pagination.pageNum, state.pagination.pageSize)
+          // })
           // }
         } else {
           console.log('error submit!', fields)
@@ -183,17 +183,17 @@ export default defineComponent({
     // 给权限树添加角色
     const addGroupRole = () => {
       const data = { groupId: state.selectRowObject.groupId, roleList: state.multipleSelectionRole }
-      addGroupRoleList(data).then((res: any) => {
-        if (res.code === 0) {
+      // addGroupRoleList(data).then((res: any) => {
+      //   if (res.code === 0) {
 
-          state.selectRowObject = {}
-          getGroupList(state.pagination.pageNum, state.pagination.pageSize)
-          getRoleList(state.paginationRole.pageNum, state.paginationRole.pageSize)
-          ElNotification.success('角色权限添加成功')
-        } else {
-          ElNotification.warning('请选择对应权限组')
-        }
-      })
+      //     state.selectRowObject = {}
+      //     getGroupList(state.pagination.pageNum, state.pagination.pageSize)
+      //     getRoleList(state.paginationRole.pageNum, state.paginationRole.pageSize)
+      //     ElNotification.success('角色权限添加成功')
+      //   } else {
+      //     ElNotification.warning('请选择对应权限组')
+      //   }
+      // })
     }
 
     return {

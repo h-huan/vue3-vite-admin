@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-06 14:58:55
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 15:33:31
+ * @LastEditTime: 2023-05-10 09:47:17
  * @Description: 
 -->
 <script lang="ts">
@@ -23,11 +23,10 @@ export default defineComponent({
       menuLists: [] as any,
     })
 
-
     getMenuList().then((res: any) => {
       if (res.code == 200) state.menuLists = res.data
     })
-    getMenuList
+
     return {
       ...toRefs(state)
     }

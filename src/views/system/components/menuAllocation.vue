@@ -2,12 +2,12 @@
  * @Author: h-huan
  * @Date: 2023-04-27 09:59:41
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-27 15:14:39
+ * @LastEditTime: 2023-05-12 09:38:40
  * @Description: 
 -->
 <script lang="ts">
 import { defineComponent, reactive, toRefs, ref, watch } from 'vue'
-import { getMenus } from '/@/api/system/menu'
+// import { getMenus } from '/@/api/system/menu'
 
 
 interface Tree {
@@ -41,10 +41,10 @@ export default defineComponent({
 
     // 获取菜单列表
     const getMenuList = (pageNum?: number, pageSize?: number) => {
-      getMenus({ pageNum, pageSize }).then(res => {
-        state.data = res.data.list
-        loading.value = false
-      })
+      // getMenus({ pageNum, pageSize }).then(res => {
+      //   state.data = res.data.list
+      //   loading.value = false
+      // })
     }
     getMenuList(state.pagination.pageNum, state.pagination.pageSize)
 

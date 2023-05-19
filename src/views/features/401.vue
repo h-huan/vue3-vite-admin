@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-06 14:23:33
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-20 17:01:52
+ * @LastEditTime: 2023-05-12 09:43:51
  * @Description: 
 -->
 <template>
@@ -84,7 +84,7 @@ export default defineComponent({
   width: 800px;
   max-width: 100%;
   margin: 100px auto;
-  color: $black;
+  color: #333333;
 
   .pan-back-btn {
     background: #008489;

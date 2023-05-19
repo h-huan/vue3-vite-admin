@@ -2,13 +2,13 @@
  * @Author: h-huan
  * @Date: 2023-04-26 10:43:04
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-27 17:45:42
+ * @LastEditTime: 2023-05-12 09:39:39
  * @Description: 
 -->
 <script lang="ts">
 import { defineComponent, reactive, toRefs, ref } from 'vue'
-import { getUserListPage, edit } from '/@/api/system/user'
-import { sliceTime } from '/@/utils/index'
+// import { getUserListPage, edit } from '/@/api/system/user'
+// import { sliceTime } from '/@/utils/index'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElNotification } from 'element-plus'
 
@@ -45,13 +45,13 @@ export default defineComponent({
 
     // 获取菜单列表
     const getMenuList = (pageNum, pageSize) => {
-      getUserListPage({ pageNum, pageSize }).then((res: any) => {
-        if (res.code == 0) {
-          state.pagination.total = res.data.total
-          state.data = res.data.list
-          loading.value = false
-        }
-      })
+      // getUserListPage({ pageNum, pageSize }).then((res: any) => {
+      //   if (res.code == 0) {
+      //     state.pagination.total = res.data.total
+      //     state.data = res.data.list
+      //     loading.value = false
+      //   }
+      // })
     }
     getMenuList(state.pagination.pageNum, state.pagination.pageSize)
 
@@ -75,12 +75,12 @@ export default defineComponent({
         if (valid) {
           let data = Object.assign({}, state.form)
           // delete data['menuChildList'];
-          edit(data).then((res: any) => {
-            if (res.code === 0) ElNotification.success('用户信息修改成功')
-            getMenuList(state.pagination.pageNum, state.pagination.pageSize)
-            state.dialogVisible = false
-            state.form = defaultForm
-          })
+          // edit(data).then((res: any) => {
+          //   if (res.code === 0) ElNotification.success('用户信息修改成功')
+          //   getMenuList(state.pagination.pageNum, state.pagination.pageSize)
+          //   state.dialogVisible = false
+          //   state.form = defaultForm
+          // })
         } else {
           console.log('error submit!', fields)
         }
@@ -94,7 +94,7 @@ export default defineComponent({
     return {
       handleSizeChange,
       handleCurrentChange,
-      sliceTime,
+      // sliceTime,
       toEdit,
       loading,
       submitForm,
@@ -121,7 +121,7 @@ export default defineComponent({
         <el-table-column prop="personphone" label="手机号" align="center" />
         <el-table-column prop="crtTime" label="创建时间" align="center">
           <template #default="scope">
-            <span>{{ sliceTime(scope.row.crtTime) }}</span>
+            <!-- <span>{{ sliceTime(scope.row.crtTime) }}</span> -->
           </template>
         </el-table-column>
         <el-table-column label="操作" width="150px" align="center" fixed="right">

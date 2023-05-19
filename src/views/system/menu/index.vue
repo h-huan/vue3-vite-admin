@@ -2,14 +2,14 @@
  * @Author: h-huan
  * @Date: 2023-04-24 10:35:18
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 17:07:18
+ * @LastEditTime: 2023-05-12 09:40:29
  * @Description: 
 -->
 <script lang="ts">
 import { defineComponent, reactive, toRefs, ref, computed } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElNotification } from 'element-plus'
-import { getMenus, add, del, edit } from '/@/api/system/menu'
+// import { getMenus, add, del, edit } from '/@/api/system/menu'
 import IconSelect from '/@/components/IconSelect/index.vue'
 import TreeSelects from '/@/components/TreeSelect/index.vue'
 import { dictFilters } from '/@/utils/index'
@@ -53,12 +53,12 @@ export default defineComponent({
 
     // 获取菜单列表
     const getMenuList = () => {
-      getMenus().then((data: any) => {
-        state.dialogVisible = false
-        state.form = defaultForm
-        state.data = data.data.list
-        loading.value = false
-      })
+      // getMenus().then((data: any) => {
+      //   state.dialogVisible = false
+      //   state.form = defaultForm
+      //   state.data = data.data.list
+      //   loading.value = false
+      // })
     }
     getMenuList()
 
@@ -90,12 +90,12 @@ export default defineComponent({
         }
       }
       // 删除
-      del({ nodeId: ids }).then((res: any) => {
-        if (res.code === 0) {
-          getMenuList()
-          ElNotification.success('删除成功')
-        }
-      })
+      // del({ nodeId: ids }).then((res: any) => {
+      //   if (res.code === 0) {
+      //     getMenuList()
+      //     ElNotification.success('删除成功')
+      //   }
+      // })
     }
 
     // 多选
@@ -121,15 +121,15 @@ export default defineComponent({
           }
           if (data.nodeId) {
             delete data['menuChildList'];
-            edit(data).then((res: any) => {
-              if (res.code === 0) ElNotification.success('菜单修改成功')
-              getMenuList()
-            })
+            // edit(data).then((res: any) => {
+            //   if (res.code === 0) ElNotification.success('菜单修改成功')
+            //   getMenuList()
+            // })
           } else {
-            add(data).then((res: any) => {
-              if (res.code === 0) ElNotification.success('菜单添加成功')
-              getMenuList()
-            })
+            // add(data).then((res: any) => {
+            //   if (res.code === 0) ElNotification.success('菜单添加成功')
+            //   getMenuList()
+            // })
           }
         } else {
           console.log('error submit!', fields)

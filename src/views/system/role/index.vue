@@ -12,7 +12,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { ElNotification } from 'element-plus'
 import menuAllocation from '../components/menuAllocation.vue'
 import { ElTable } from 'element-plus'
-import { add, del, getRoleListPage, addRoleMenuList } from '/@/api/system/role'
+// import { add, del, getRoleListPage, addRoleMenuList } from '/@/api/system/role'
 
 
 const defaultForm = { roleName: null, description: null, }
@@ -42,12 +42,12 @@ export default defineComponent({
 
     // 获取角色列表
     const getRoleList = (pageNum, pageSize) => {
-      getRoleListPage({ pageNum, pageSize }).then((res: any) => {
-        state.dialogVisible = false
-        state.form = defaultForm
-        state.data = res.data.list
-        loading.value = false
-      })
+      // getRoleListPage({ pageNum, pageSize }).then((res: any) => {
+      //   state.dialogVisible = false
+      //   state.form = defaultForm
+      //   state.data = res.data.list
+      //   loading.value = false
+      // })
     }
     getRoleList(state.pagination.pageNum, state.pagination.pageSize)
 
@@ -66,14 +66,14 @@ export default defineComponent({
     // 删除菜单
     const toDel = (id?: number) => {
       if (id) {
-        del({ roleId: id }).then((res: any) => {
-          if (res.code === 0) {
-            getRoleList(state.pagination.pageNum, state.pagination.pageSize)
-            ElNotification.success('删除成功')
-            return
-          }
-          ElNotification.success('删除失败')
-        })
+        // del({ roleId: id }).then((res: any) => {
+        //   if (res.code === 0) {
+        //     getRoleList(state.pagination.pageNum, state.pagination.pageSize)
+        //     ElNotification.success('删除成功')
+        //     return
+        //   }
+        //   ElNotification.success('删除失败')
+        // })
       }
     }
     // 多选
@@ -91,18 +91,11 @@ export default defineComponent({
       await formEl.validate((valid, fields) => {
         if (valid) {
           let data = Object.assign({}, state.form)
-          // if (data.nodeId) {
-          // delete data['menuChildList'];
-          // edit(data).then((res: any) => {
-          //   if (res.code === 0) ElNotification.success('菜单修改成功')
+
+          // add(data).then((res: any) => {
+          //   if (res.code === 0) ElNotification.success('权限组添加成功')
           //   getRoleList(state.pagination.pageNum, state.pagination.pageSize)
           // })
-          // } else {
-          add(data).then((res: any) => {
-            if (res.code === 0) ElNotification.success('权限组添加成功')
-            getRoleList(state.pagination.pageNum, state.pagination.pageSize)
-          })
-          // }
         } else {
           console.log('error submit!', fields)
         }
@@ -141,17 +134,17 @@ export default defineComponent({
         roleId: state.selectRowObject.roleId, menuList: menuList
       }
 
-      addRoleMenuList(data).then((res: any) => {
-        if (res.code === 0) {
-          getRoleList(state.pagination.pageNum, state.pagination.pageSize)
-          loading.value = true
-          state.menuAllocationKey = Math.random()
-          state.selectRowObject = {}
-          ElNotification.success('菜单权限添加成功')
-        } else {
-          ElNotification.warning('请选择对应角色')
-        }
-      })
+      // addRoleMenuList(data).then((res: any) => {
+      //   if (res.code === 0) {
+      //     getRoleList(state.pagination.pageNum, state.pagination.pageSize)
+      //     loading.value = true
+      //     state.menuAllocationKey = Math.random()
+      //     state.selectRowObject = {}
+      //     ElNotification.success('菜单权限添加成功')
+      //   } else {
+      //     ElNotification.warning('请选择对应角色')
+      //   }
+      // })
     }
 
     // 修改选中行样式
