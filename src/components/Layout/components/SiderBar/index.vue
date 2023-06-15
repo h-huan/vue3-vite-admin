@@ -2,32 +2,46 @@
  * @Author: h-huan
  * @Date: 2023-04-06 14:58:55
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-10 09:47:17
+ * @LastEditTime: 2023-06-15 14:27:39
  * @Description: 
 -->
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
-import { useRouter } from 'vue-router'
-import { useState } from "/@/hooks/useStore";
+import { defineComponent, reactive, toRefs, watch, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useStates } from "/@/hooks/useStore";
 import { getMenuList } from "/@/api/system/menu";
 
 export default defineComponent({
   name: 'SideBar',
   setup() {
-    const appState: any = useState('App', ['sidebar'])
-    const router = useRouter();
+    const appState: any = useStates('App', ['sidebar'])
+    // const router = useRouter();
+
+
+    const route = useRoute();
+    const onRoutes = computed(() => {
+      return route.path;
+    });
 
     const state = reactive({
-      menuActive: router.currentRoute.value.path,
+      menuActive: onRoutes,
       collapse: appState.sidebar,
       menuLists: [] as any,
     })
 
+
+
+    watch(route, async (newQuestion) => {
+      console.log('newQuestion', newQuestion);
+
+
+    })
     getMenuList().then((res: any) => {
       if (res.code == 200) state.menuLists = res.data
     })
 
     return {
+      onRoutes,
       ...toRefs(state)
     }
   }
@@ -43,7 +57,7 @@ export default defineComponent({
       </router-link>
     </div>
     <el-scrollbar class="scrollbar-wrapper">
-      <el-menu :default-active="menuActive" background-color="#1F223A" text-color="#E7F0FF" :collapse-transition="false"
+      <el-menu :default-active="onRoutes" background-color="#1F223A" text-color="#E7F0FF" :collapse-transition="false"
         :collapse="!collapse" router class="hh-menu" unique-opened>
         <template v-for="(item, index) in menuLists" :key="index">
           <el-sub-menu v-if="item.childrens" index="item.url" class="hh-menu-item">

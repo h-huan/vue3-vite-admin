@@ -36,7 +36,6 @@ export default defineComponent({
     // const emit = defineEmits(["update:modelValue"]);
 
     // emit('update:modelValue',value)
-    // console.log(props.defaultProps[props.defaultProps.children] = props.treeData);
     // const data = []
     const Object = {}
     Object[props.defaultProps.id] = 0

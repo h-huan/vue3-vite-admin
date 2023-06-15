@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-05-09 16:15:09
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 17:41:20
+ * @LastEditTime: 2023-06-15 15:30:33
  * @Description: 
  */
 /*
@@ -19,6 +19,7 @@ const getters = {
   user: state => state.User.user,
   sidebar: state => state.App.sidebar,
   visitedViews: state => state.TagsView.visitedViews,
+  cachedViews: state => state.TagsView.cachedViews
 }
 
 export default getters

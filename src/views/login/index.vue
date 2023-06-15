@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-06 14:39:49
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 17:50:17
+ * @LastEditTime: 2023-06-13 15:02:30
  * @Description: 
 -->
 <script lang="ts">
@@ -12,12 +12,8 @@ import { FormInstance, ElNotification } from 'element-plus'
 
 import { useActions } from "/@/hooks/useStore";
 
-import { hhH1 } from 'xxx-ui'
-
-
 export default defineComponent({
   name: 'login',
-  components: { hhH1 },
   setup() {
 
     const router = useRouter()

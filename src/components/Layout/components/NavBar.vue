@@ -2,16 +2,17 @@
  * @Author: h-huan
  * @Date: 2023-04-06 19:41:47
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 17:27:06
+ * @LastEditTime: 2023-06-14 09:22:47
  * @Description: 
 -->
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
+import { useRouter } from "vue-router";
+import { ElMessageBox, ElNotification } from "element-plus";
+import { useStates, useActions } from "/@/hooks/useStore";
+
 import Breadcrumb from '/@/components/Breadcrumb/index.vue'
 import Screenfull from '/@/components/Screenfull/index.vue'
-import { ElMessageBox, ElNotification } from "element-plus";
-import { useState, useActions } from "/@/hooks/useStore";
-import { useRouter } from "vue-router";
 
 
 export default defineComponent({
@@ -23,7 +24,7 @@ export default defineComponent({
   setup() {
     const userActions: any = useActions('User', ['LogOut'])
     const appActions: any = useActions('App', ['toggleSideBar'])
-    const appState: any = useState('App', ['sidebar'])
+    const appState: any = useStates('App', ['sidebar'])
 
     const router = useRouter()
 

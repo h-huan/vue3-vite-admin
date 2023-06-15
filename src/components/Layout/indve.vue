@@ -2,15 +2,18 @@
  * @Author: h-huan
  * @Date: 2023-04-02 16:58:47
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 15:00:11
+ * @LastEditTime: 2023-06-15 18:05:34
  * @Description: 
 -->
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+import { defineComponent, reactive, toRefs, computed } from 'vue'
+
+import { useStates } from "/@/hooks/useStore";
+import { useRoute } from "vue-router";
+
 import SideBar from './components/SiderBar/index.vue'
 import NavBar from './components/NavBar.vue'
 import TagsView from './components/TagsView.vue'
-import { useState } from "/@/hooks/useStore";
 
 export default defineComponent({
   name: 'Layout',
@@ -21,11 +24,25 @@ export default defineComponent({
   },
   setup() {
 
-    const appState: any = useState('App', ['sidebar'])
+    const route = useRoute()
+    const appStates: any = useStates('App', ['sidebar'])
+    const TagsViewStates: any = useStates('TagsView', ['cachedViews'])
+
     const state = reactive({
-      hideSidebar: appState.sidebar
+      hideSidebar: appStates.sidebar
     })
+
+    // 获取快照
+    const cachedViews = computed(() => {
+      return TagsViewStates.cachedViews.value;
+    });
+    const key = computed(() => {
+      return route.path;
+    });
+
     return {
+      key,
+      cachedViews,
       ...toRefs(state)
     }
   }
@@ -41,7 +58,14 @@ export default defineComponent({
         <tags-view />
       </div>
       <section class="app-main">
-        <router-view></router-view>
+
+        <router-view v-slot="{ Component }" :key="key">
+          <transition name="move" mode="out-in">
+            <keep-alive :include="cachedViews">
+              <component :is="Component" />
+            </keep-alive>
+          </transition>
+        </router-view>
       </section>
     </div>
   </div>
@@ -73,6 +97,12 @@ export default defineComponent({
     width: 100%;
     min-height: 100%;
     box-sizing: border-box;
+    // padding-top: 82px;
+
+    // .fixed-header {
+    //   position: fixed;
+    //   top: 0;
+    // }
   }
 }
 

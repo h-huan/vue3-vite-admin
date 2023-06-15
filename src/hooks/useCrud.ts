@@ -13,9 +13,9 @@
  * @Description: 
  */
 
-import { computed,reactive,ref,toRefs,onMounted, onBeforeMount, onBeforeUnmount  } from 'vue'
+import { computed, reactive, ref, toRefs, onMounted, onBeforeMount, onBeforeUnmount } from 'vue'
 import { initData, download } from '/@/api/data'
-import {  downloadFile } from '/@/utils/index'
+import { downloadFile } from '/@/utils/index'
 
 
 /**
@@ -26,7 +26,7 @@ import {  downloadFile } from '/@/utils/index'
  * @example
  * 要使用多crud时，请在关联crud的组件处使用crud-tag进行标记，如：<jobForm :job-status="dict.job_status" crud-tag="job" />
  */
-function CRUD(options:any){
+function CRUD(options: any) {
   const defaultOptions = {
     tag: 'default',
     // id字段名
@@ -46,17 +46,17 @@ function CRUD(options:any){
     // Form 表单
     form: {},
     // 重置表单
-    defaultForm: () => {},
+    defaultForm: () => { },
     // 排序规则，默认 id 降序， 支持多字段排序 ['id,desc', 'createTime,asc']
     sort: ['id,desc'],
     // 等待时间
     time: 50,
     // CRUD Method
     crudMethod: {
-      add: (form) => {},
-      del: (id) => {},
-      edit: (form) => {},
-      get: (id) => {}
+      add: (form) => { },
+      del: (id) => { },
+      edit: (form) => { },
+      get: (id) => { }
     },
     // 主页操作栏显示哪些按钮
     optShow: {
@@ -120,9 +120,9 @@ function CRUD(options:any){
     // 删除的 Loading
     delAllLoading: false
   }
-  
+
   const methods = {
-   
+
     // 搜索
     toQuery() {
       crud.page.page = 1
@@ -136,13 +136,13 @@ function CRUD(options:any){
       return new Promise((resolve, reject) => {
 
 
-        console.log('refresh',crud);
-         
+        console.log('refresh', crud);
+
         crud.loading = true
         // 请求数据
-        initData(crud.url, crud.getQueryParams()).then((data:any) => {
+        initData(crud.url, crud.getQueryParams()).then((data: any) => {
           const table = crud.getTable()
-          
+
           if (table && table.lazy) {   // 懒加载子节点数据，清掉已加载的数据
             table.store.states.treeData = {}
             table.store.states.lazyTreeNodeMap = {}
@@ -151,8 +151,6 @@ function CRUD(options:any){
           crud.data.push(...data.content)
           crud.resetDataStatus()
 
-          // console.log('data');
-          // console.log(data,crud);
           // time 毫秒后显示表格
           // setTimeout(() => {
           //   crud.loading = false
@@ -164,13 +162,12 @@ function CRUD(options:any){
           reject(err)
         })
 
-        console.log('refresh2',crud);
       })
     },
-     /**
-     * 获取查询参数
-     */
-     getQueryParams: function() {
+    /**
+    * 获取查询参数
+    */
+    getQueryParams: function () {
       // 清除参数无值的情况
       Object.keys(crud.query).length !== 0 && Object.keys(crud.query).forEach(item => {
         if (crud.query[item] === null || crud.query[item] === '') crud.query[item] = undefined
@@ -190,29 +187,29 @@ function CRUD(options:any){
      * 重置数据状态
      */
     resetDataStatus() {
-    const dataStatus = {}
-    function resetStatus(datas:any) {
-      if(datas){
-        datas.forEach(e => {
-          dataStatus[crud.getDataId(e)] = {
-            delete: 0,
-            edit: 0
-          }
-          if (e.children) {
-            resetStatus(e.children)
-          }
-        })
+      const dataStatus = {}
+      function resetStatus(datas: any) {
+        if (datas) {
+          datas.forEach(e => {
+            dataStatus[crud.getDataId(e)] = {
+              delete: 0,
+              edit: 0
+            }
+            if (e.children) {
+              resetStatus(e.children)
+            }
+          })
+        }
       }
-    }
-    resetStatus(crud.data)
-    crud.dataStatus = dataStatus
+      resetStatus(crud.data)
+      crud.dataStatus = dataStatus
     },
     /**
      * 获取table
      */
     getTable() {
-      const table=ref()
-      
+      const table = ref()
+
       // return crud.findVM('presenter').$refs.table
       return table
     },
@@ -224,12 +221,12 @@ function CRUD(options:any){
     },
     updateProp(name, value) {
       // Vue.set(crud.props, name, value)
-      crud.props[name]=value
+      crud.props[name] = value
     },
 
     attchTable() {
       const table = crud.getTable()
-      
+
       crud.updateProp('table', table)
       // table.$on('expand-change', (row, expanded) => {
       //   if (!expanded) {
@@ -250,7 +247,7 @@ function CRUD(options:any){
       //   }
       // })
     }
-  
+
 
     // /**
     //  * 通用的提示
@@ -451,7 +448,7 @@ function CRUD(options:any){
     //     crud.downloadLoading = false
     //   })
     // },
-   
+
     // // 当前页改变
     // pageChangeHandler(e) {
     //   crud.page.page = e
@@ -508,7 +505,7 @@ function CRUD(options:any){
     //     crud.findVM('form').$refs['form'].clearValidate()
     //   }
     // },
-   
+
     // /**
     //  * 获取数据状态
     //  * @param {Number | String} id 数据项id
@@ -567,7 +564,7 @@ function CRUD(options:any){
     //     })
     //   }
     // },
-   
+
     // notify(title, type = CRUD.NOTIFICATION_TYPE.INFO) {
     //   crud.vms[0].vm.$notify({
     //     title,
@@ -575,9 +572,9 @@ function CRUD(options:any){
     //     duration: 2500
     //   })
     // },
-  
-  
-   
+
+
+
   }
 
   const crud = Object.assign({}, data)
@@ -649,7 +646,6 @@ function CRUD(options:any){
  */
 function callVmHook(crud, hook?: string) {
   if (crud.debug) {
-    console.log('callVmHook: ' + hook)
   }
   const tagHook = crud.tag ? hook + '$' + crud.tag : null
   let ret = true
@@ -713,35 +709,31 @@ function lookupCrud(vm, tag?: string) {
  * @return {*}
  */
 function presenter(crud) {
-  const crudState= reactive({crud})
+  const crudState = reactive({ crud })
 
 
- 
-  crud['haha']='haha'
+
+  crud['haha'] = 'haha'
 
   const getCrud = () => {
     crudState.crud.toQuery()
   }
 
 
-  onBeforeMount(()=>{
-    
-   
+  onBeforeMount(() => {
+
+
     const table = ref(null);
     // state.crud=crud
-    // console.log(3);
-    // console.log(crud);
   })
 
   onMounted(() => {
-    // console.log(4);
     // // 如果table未实例化（例如使用了v-if），请稍后在适当时机crud.attchTable刷新table信息
     // const table = ref(null);
-    // console.log(state.crud);
     // // state.crud=crud
-    
+
     // if (table !== undefined) {
-      
+
     //   // crudState.crud.attchTable()
     // }
   })
@@ -762,15 +754,15 @@ function presenter(crud) {
   //   })
   //   this.crud = this.$crud['defalut'] || cruds[0]
   // })
-  
+
   // onMounted(()=>{
-    
+
   // })
-  onBeforeUnmount(()=>{
+  onBeforeUnmount(() => {
 
   })
-  
-  
+
+
   return {
     crudState,
     getCrud

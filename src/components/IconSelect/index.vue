@@ -10,9 +10,6 @@ import { defineComponent, reactive, toRefs } from 'vue'
 // import font from "/font/iconfont.json";
 import { getJson } from "/@/api/data.js";
 
-
-
-
 export default defineComponent({
   name: 'IconSelect',
   setup(props, { attrs, slots, emit, expose }) {

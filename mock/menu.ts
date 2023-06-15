@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-05-09 14:48:30
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 17:37:16
+ * @LastEditTime: 2023-06-14 10:10:41
  * @Description: 
  */
 
@@ -12,7 +12,7 @@ import type { MockMethod } from 'vite-plugin-mock'
 export default [
   {
     // 获取菜单
-    url: '/mock/hhuan/menu/getMenuList', 
+    url: '/mock/hhuan/menu/getMenuList',
     method: 'get',
     response: () => {
       return {
@@ -29,7 +29,8 @@ export default [
             ]
           },
           { text: '图标库', icon: "icon-caidan", url: "", },
-          { text: '组件管理', icon: "icon-caidan", url: "", }
+          { text: '组件管理', icon: "icon-caidan", url: "/components", },
+          { text: '测试', icon: "icon-caidan", url: "/test", },
         ]
       }
     }

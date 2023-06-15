@@ -8,19 +8,19 @@ import { computed } from 'vue'
  * @return {*}
  */
 function useStateMapper(mapper, mapFn) {
-    const store = useStore();
+  const store = useStore();
 
-    const storeStateFns = mapFn(mapper);
+  const storeStateFns = mapFn(mapper);
 
-    const storeState = {};
-    Object.keys(storeStateFns).forEach(fnKey => {
-        // vuex源码中mapState和mapGetters的方法中使用的是this.$store,所以更改this绑定
-        const fn = storeStateFns[fnKey].bind({ $store: store });
-        storeState[fnKey] = computed(fn)
+  const storeState = {};
+  Object.keys(storeStateFns).forEach(fnKey => {
+    // vuex源码中mapState和mapGetters的方法中使用的是this.$store,所以更改this绑定
+    const fn = storeStateFns[fnKey].bind({ $store: store });
+    storeState[fnKey] = computed(fn)
 
-    })
+  })
 
-    return storeState
+  return storeState
 }
 
 /**
@@ -30,17 +30,17 @@ function useStateMapper(mapper, mapFn) {
  * @return {*}
  */
 function useActionMapper(mapper, mapFn) {
-    const store = useStore();
-    
-    const storeActionsFns = mapFn(mapper);
+  const store = useStore();
 
-    const storeAction = {};
+  const storeActionsFns = mapFn(mapper);
 
-    Object.keys(storeActionsFns).forEach(fnKey => {
-        storeAction[fnKey] = storeActionsFns[fnKey].bind({ $store: store })
-    })
+  const storeAction = {};
 
-    return storeAction
+  Object.keys(storeActionsFns).forEach(fnKey => {
+    storeAction[fnKey] = storeActionsFns[fnKey].bind({ $store: store })
+  })
+
+  return storeAction
 }
 
 /**
@@ -51,7 +51,7 @@ function useActionMapper(mapper, mapFn) {
  */
 function useMutationMapper(mapper, mapFn) {
   const store = useStore();
-  
+
   const storeMutationsFns = mapFn(mapper);
 
   const storeMutation = {};
@@ -64,7 +64,7 @@ function useMutationMapper(mapper, mapFn) {
 }
 
 function checkType(data) {
-    return Object.prototype.toString.call(data)
+  return Object.prototype.toString.call(data)
 }
 
 /**
@@ -73,14 +73,14 @@ function checkType(data) {
  * @param {*} mapper state属性集合 ['name', 'age']
  * @returns 
  */
-function useState(moduleName, mapper) {
+function useStates(moduleName, mapper) {
   let mapperFn = mapState;
-  
-// 如果使用模块化，则使用vuex提供的createNamespacedHelpers方法找到对应模块的mapState方法
+
+  // 如果使用模块化，则使用vuex提供的createNamespacedHelpers方法找到对应模块的mapState方法
   if (checkType(moduleName) === "[object String]" && moduleName.length > 0) {
-      mapperFn = createNamespacedHelpers(moduleName).mapState
+    mapperFn = createNamespacedHelpers(moduleName).mapState
   }
-  
+
   return useStateMapper(mapper, mapperFn)
 }
 
@@ -92,10 +92,10 @@ function useState(moduleName, mapper) {
  */
 function useGetters(moduleName, mapper) {
   let mapperFn = mapGetters;
-  
-// 如果使用模块化，则使用vuex提供的createNamespacedHelpers方法找到对应模块的mapGetters方法
+
+  // 如果使用模块化，则使用vuex提供的createNamespacedHelpers方法找到对应模块的mapGetters方法
   if (checkType(moduleName) === "[object String]" && moduleName.length > 0) {
-      mapperFn = createNamespacedHelpers(moduleName).mapGetters
+    mapperFn = createNamespacedHelpers(moduleName).mapGetters
   }
 
   return useStateMapper(mapper, mapperFn)
@@ -109,10 +109,10 @@ function useGetters(moduleName, mapper) {
  */
 function useActions(moduleName, mapper) {
   let mapperFn = mapActions;
-  
-// 如果使用模块化，则使用vuex提供的createNamespacedHelpers方法找到对应模块的mapActions方法
+
+  // 如果使用模块化，则使用vuex提供的createNamespacedHelpers方法找到对应模块的mapActions方法
   if (checkType(moduleName) === "[object String]" && moduleName.length > 0) {
-      mapperFn = createNamespacedHelpers(moduleName).mapActions
+    mapperFn = createNamespacedHelpers(moduleName).mapActions
   }
 
   return useActionMapper(mapper, mapperFn)
@@ -126,10 +126,10 @@ function useActions(moduleName, mapper) {
  */
 function useMutations(moduleName, mapper) {
   let mapperFn = mapMutations;
-  
+
   // 如果使用模块化，则使用vuex提供的createNamespacedHelpers方法找到对应模块的mapMutations方法
   if (checkType(moduleName) === "[object String]" && moduleName.length > 0) {
-      mapperFn = createNamespacedHelpers(moduleName).mapMutations
+    mapperFn = createNamespacedHelpers(moduleName).mapMutations
   }
 
   return useMutationMapper(mapper, mapperFn)
@@ -137,7 +137,7 @@ function useMutations(moduleName, mapper) {
 
 
 export {
-  useState,
+  useStates,
   useGetters,
   useActions,
   useMutations
