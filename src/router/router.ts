@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-27 09:07:46
  * @LastEditors: h-huan
- * @LastEditTime: 2023-06-15 09:28:02
+ * @LastEditTime: 2023-06-16 14:21:15
  * @Description: 
  */
 
@@ -62,6 +62,52 @@ export const routes: RouteRecordRaw[] = [
         meta: { title: '首页', icon: 'dashboard', affix: true }
       },
       {
+        name: 'System',
+        path: '/system',
+        component: () => import('/@/views/system/index.vue'),
+        meta: { title: '系统设置' },
+        redirect: '/user',
+        // redirect: { name: 'systemMenu' },
+        children: [
+          {
+            path: '/user',
+            component: () => import('/@/views/system/user/index.vue'),
+            name: 'user',
+            meta: { title: '用户设置' },
+          },
+          {
+            path: '/role',
+            component: () => import('/@/views/system/role/index.vue'),
+            name: 'role',
+            meta: { title: '角色设置' },
+          },
+          {
+            path: '/menu',
+            component: () => import('/@/views/system/menu/index.vue'),
+            name: 'menu',
+            meta: { title: '菜单设置' },
+          },
+          // {
+          //   path: '/system/dept',
+          //   component: () => import('/@/views/system/dept/index.vue'),
+          //   name: 'dept',
+          //   meta: { title: '部门管理' },
+          // },
+          // {
+          //   path: '/system/job',
+          //   component: () => import('/@/views/system/job/index.vue'),
+          //   name: 'job',
+          //   meta: { title: '岗位' },
+          // },
+          {
+            path: '/dict',
+            component: () => import('/@/views/system/dict/index.vue'),
+            name: 'dict',
+            meta: { title: '菜单设置' },
+          },
+        ]
+      },
+      {
         name: 'Test',
         path: '/test',
         component: () => import('/@/views/test/index.vue'),
@@ -70,8 +116,16 @@ export const routes: RouteRecordRaw[] = [
       {
         name: 'Components',
         path: '/components',
-        component: () => import('/@/views/components/index.vue'),
-        meta: { title: '组件', icon: 'dashboard', affix: false }
+        redirect: '/MarkDow',
+        meta: { title: '组件' },
+        children: [
+          {
+            name: 'MarkDown',
+            path: '/MarkDown',
+            component: () => import('/@/views/components/MarkDown/index.vue'),
+            meta: { title: 'MarkDown', affix: false }
+          }
+        ]
       }
     ]
   },
