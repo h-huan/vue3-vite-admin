@@ -1,8 +1,10 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
+import Iframe from '/@/components/Iframe/index.vue'
 
 export default defineComponent({
-  name: 'test ',
+  name: 'iframe ',
+  components: { Iframe },
   setup() {
     const state = reactive({
     })
@@ -14,7 +16,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>test page</div>
+  <!-- <div class="app-container"> -->
+  <Iframe src="https://cn.vuejs.org/guide/introduction.html"></Iframe>
+  <!-- </div> -->
 </template>
 
 <style lang="scss" scoped></style>

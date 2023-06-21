@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-02 16:58:47
  * @LastEditors: h-huan
- * @LastEditTime: 2023-06-15 18:05:34
+ * @LastEditTime: 2023-06-20 16:30:41
  * @Description: 
 -->
 <script lang="ts">
@@ -115,5 +115,45 @@ export default defineComponent({
     padding-left: 64px;
     // width: calc(100% - 54px)
   }
+}
+
+.app-main {
+  min-height: calc(100vh - 84px);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.fixed-header+.app-main {
+  padding-top: 84px;
+}
+
+// .hasTagsView {
+//   .app-main {
+//     /* 84 = navbar + tags-view = 50 + 34 */
+//     min-height: calc(100vh - 84px);
+//   }
+
+//   .fixed-header+.app-main {
+//     padding-top: 84px;
+//   }
+// }
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  width: calc(100% - #{$sidebarWidth});
+  transition: width 0.28s;
+  padding: 0;
+}
+
+.hideSidebar .fixed-header {
+  width: calc(100% - 54px)
+}
+
+.mobile .fixed-header {
+  width: 100%;
 }
 </style>

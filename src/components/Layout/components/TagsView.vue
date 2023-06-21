@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-06 20:03:24
  * @LastEditors: h-huan
- * @LastEditTime: 2023-06-15 14:14:02
+ * @LastEditTime: 2023-06-20 16:32:26
  * @Description: 
 -->
 <script lang="ts">
@@ -24,7 +24,6 @@ export default defineComponent({
     const tagsViewRef = ref(null);
     const scrollPaneRef = ref(null);
 
-    console.log('==route', route, router);
     const state = reactive({
       visible: false,
       top: 0,

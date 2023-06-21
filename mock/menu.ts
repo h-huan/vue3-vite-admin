@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-05-09 14:48:30
  * @LastEditors: h-huan
- * @LastEditTime: 2023-06-16 14:22:41
+ * @LastEditTime: 2023-06-21 16:32:59
  * @Description: 
  */
 
@@ -34,7 +34,8 @@ export default [
               { name: 'MarkDown', icon: "icon-yonghu1", url: "/MarkDown" },
             ]
           },
-          { text: '测试', icon: "icon-caidan", url: "/test", },
+          { text: '表单管理', icon: "icon-caidan", url: "/form", },
+          { text: 'VUE文档', icon: "icon-caidan", url: "/test", },
         ]
       }
     }

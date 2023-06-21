@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-27 09:07:46
  * @LastEditors: h-huan
- * @LastEditTime: 2023-06-16 14:21:15
+ * @LastEditTime: 2023-06-20 17:53:09
  * @Description: 
  */
 
@@ -64,7 +64,6 @@ export const routes: RouteRecordRaw[] = [
       {
         name: 'System',
         path: '/system',
-        component: () => import('/@/views/system/index.vue'),
         meta: { title: '系统设置' },
         redirect: '/user',
         // redirect: { name: 'systemMenu' },
@@ -112,6 +111,12 @@ export const routes: RouteRecordRaw[] = [
         path: '/test',
         component: () => import('/@/views/test/index.vue'),
         meta: { title: '测试', icon: 'dashboard', affix: false }
+      },
+      {
+        name: 'Form',
+        path: '/form',
+        component: () => import('/@/views/form/index.vue'),
+        meta: { title: '表单', icon: 'dashboard', affix: false }
       },
       {
         name: 'Components',

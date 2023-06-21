@@ -1,10 +1,12 @@
 
 import user from "./user"
 import menu from "./menu"
+import table from "./table"
 
-const mocks=[
+const mocks = [
   ...user,
-  ...menu
+  ...menu,
+  ...table
 ]
 
 
