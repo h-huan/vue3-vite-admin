@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-26 10:42:16
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-27 15:27:54
+ * @LastEditTime: 2023-06-30 16:35:02
  * @Description: 
 -->
 
@@ -10,81 +10,58 @@
 import { defineComponent, reactive, toRefs, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElNotification } from 'element-plus'
-import menuAllocation from '../components/menuAllocation.vue'
 import { ElTable } from 'element-plus'
-// import { add, del, getRoleListPage, addRoleMenuList } from '/@/api/system/role'
-
+import { getMenuList } from "/@/api/system/menu";
 
 const defaultForm = { roleName: null, description: null, }
 const defaultPagination = { pageSizes: [10, 20, 50, 100], pageNum: 1, pageSize: 10, total: 0, }
 
 export default defineComponent({
   name: 'role',
-  components: { menuAllocation },
+  // components: { menuAllocation },
   setup() {
     const ruleFormRef = ref<FormInstance>()  //表单
-    const loading = ref(true)
+    const loading = ref(false)
 
     const state = reactive({
+      query: {
+        username: ''
+      },
+      defaultProps: {
+        children: "childrens",
+        label: "title"
+      },
+      pagination: defaultPagination,
+      data: [
+        { id: '1', name: '超级管理员', dataScope: '全部权限', level: '1', description: '', createTime: '2023-6-30' },
+        { id: '2', name: 'test', dataScope: '部分权限', level: '1', description: '', createTime: '2023-6-30' },
+      ],
       dialogVisible: false,
       dialogTitle: '新增',
-      selectRowObject: {} as any,
-      data: [],
-      pagination: defaultPagination,
-      multipleSelection: [],
-      selectArr: [],
       form: defaultForm,
       rules: {
         roleName: { required: true, message: '请输入名称', trigger: 'blur' },
       } as FormRules,
-      menuAllocationKey: 0,
+      multipleSelection: [],
+      treeData: []
+
     })
 
     // 获取角色列表
     const getRoleList = (pageNum, pageSize) => {
-      // getRoleListPage({ pageNum, pageSize }).then((res: any) => {
-      //   state.dialogVisible = false
-      //   state.form = defaultForm
-      //   state.data = res.data.list
-      //   loading.value = false
-      // })
     }
     getRoleList(state.pagination.pageNum, state.pagination.pageSize)
 
-    // 新增
-    const toAdd = () => {
-      state.dialogTitle = "新增"
-      state.form = defaultForm
-      state.dialogVisible = true
-    }
-    // 编辑
-    const toEdit = (data) => {
-      state.dialogTitle = "修改"
-      state.form = Object.assign({}, data)
-      state.dialogVisible = true
-    }
-    // 删除菜单
-    const toDel = (id?: number) => {
-      if (id) {
-        // del({ roleId: id }).then((res: any) => {
-        //   if (res.code === 0) {
-        //     getRoleList(state.pagination.pageNum, state.pagination.pageSize)
-        //     ElNotification.success('删除成功')
-        //     return
-        //   }
-        //   ElNotification.success('删除失败')
-        // })
-      }
-    }
+
     // 多选
     const handleSelectionChange = (val) => {
       state.multipleSelection = val;
     }
     // 关闭提示
-    const handleClose = (done: () => void) => {
-      done()
-      state.form = defaultForm
-    }
+    // const handleClose = (done: () => void) => {
+    //   done()
+    //   state.form = defaultForm
+    // }
     // 提交表单
     const submitForm = async (formEl: FormInstance | undefined) => {
       if (!formEl) return
@@ -92,10 +69,6 @@ export default defineComponent({
         if (valid) {
           let data = Object.assign({}, state.form)
 
-          // add(data).then((res: any) => {
-          //   if (res.code === 0) ElNotification.success('权限组添加成功')
-          //   getRoleList(state.pagination.pageNum, state.pagination.pageSize)
-          // })
         } else {
           console.log('error submit!', fields)
         }
@@ -106,10 +79,7 @@ export default defineComponent({
       if (!formEl) return
       formEl.resetFields()
     }
-    // 删除判断
-    const confirmEvent = (id?: number) => {
-      toDel(id)
-    }
+
     // 分页
     const handleSizeChange = (val: number) => {
       state.pagination.pageSize = val
@@ -120,57 +90,38 @@ export default defineComponent({
       getRoleList(val, state.pagination.pageSize)
     }
 
-    // 选中表格行
-    const selectRow = (row, column, event) => {
-      state.selectRowObject = row;
-      state.selectArr = []
-      if (row.nodeIds) {
-        state.selectArr = row.nodeIds.split(',')
-      }
-    }
-
     const addRoleMenu = (menuList) => {
-      const data = {
-        roleId: state.selectRowObject.roleId, menuList: menuList
-      }
 
-      // addRoleMenuList(data).then((res: any) => {
-      //   if (res.code === 0) {
-      //     getRoleList(state.pagination.pageNum, state.pagination.pageSize)
-      //     loading.value = true
-      //     state.menuAllocationKey = Math.random()
-      //     state.selectRowObject = {}
-      //     ElNotification.success('菜单权限添加成功')
-      //   } else {
-      //     ElNotification.warning('请选择对应角色')
-      //   }
-      // })
     }
 
-    // 修改选中行样式
-    const rowStyle = ({ row }) => {
-      if (state.selectRowObject['roleName'] === row.roleName) {
-        return { 'background-color': '#F7F8FA', cursor: 'pointer' };
-      }
-      return { cursor: 'pointer' };
+    // 获取菜单列表
+    const getMenuLists = () => {
+      getMenuList().then((res: any) => {
+        if (res.code == 200) state.treeData = res.data
+        loading.value = false
+      })
+
+    }
+    getMenuLists()
+    // 获取选择的树
+    const handleCheckChange = (
+      data,
+      checked,
+      indeterminate
+    ) => {
+      console.log(data, checked, indeterminate)
     }
 
     return {
-      toAdd,
-      toEdit,
-      toDel,
-      handleSelectionChange,
-      handleClose,
-      submitForm,
-      resetForm,
-      confirmEvent,
-      handleSizeChange,
-      handleCurrentChange,
-      selectRow,
-      rowStyle,
       loading,
       ruleFormRef,
+      handleSelectionChange,
+      handleSizeChange,
+      handleCurrentChange,
       addRoleMenu,
+      resetForm,
+      submitForm,
+      handleCheckChange,
       ...toRefs(state)
     }
   }
@@ -178,10 +129,34 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="class-box">
-    <div class="tool-wrapper">
-      <div class="tool-tip">
-        <el-button type="primary" @click="toAdd"><i class="iconfont icon-zengjia"></i>新增角色</el-button>
+  <div class="app-container">
+    <div class="head-container">
+      <div class="crud-search">
+        <el-input v-model="query.username" clearable placeholder="输入名称" style="width: 200px;" class="filter-item" />
+        <el-button type="success" class="filter-item"><template #icon><i
+              class="iconfont icon-sousuo"></i></template>搜索</el-button>
+        <el-button type="warning" class="filter-item"><template #icon><i
+              class="iconfont icon-zhongzhi"></i></template>重置</el-button>
+      </div>
+      <div class="crud-opts">
+        <span class="crud-opts-left">
+          <el-button type="primary" class="filter-item">
+            <template #icon>
+              <i class="iconfont icon-xinzeng"></i>
+            </template>
+            新增</el-button>
+          <el-button type="success" class="filter-item" @click="dialogVisible = true"><template #icon><i
+                class="iconfont icon-xiugai"></i></template>修改</el-button>
+          <el-button type="danger" class="filter-item"><template #icon><i
+                class="iconfont icon-shanchu"></i></template>删除</el-button>
+          <el-button type="warning" class="filter-item"><template #icon><i
+                class="iconfont icon-daoru"></i></template>导出</el-button>
+        </span>
+        <div class="crud-opts-right">
+          <el-button><i class="iconfont icon-sousuo"></i></el-button>
+          <el-button><i class="iconfont icon-zhongzhi"></i></el-button>
+          <el-button><i class="iconfont icon-nine-squares-full"></i></el-button>
+        </div>
       </div>
     </div>
     <el-row :gutter="15">
@@ -194,20 +169,18 @@ export default defineComponent({
           </template>
           <div class="table">
             <el-table v-loading="loading" :data="data" style="width: 100%" @selection-change="handleSelectionChange"
-              row-key="roleId" @row-click="selectRow" :row-style="rowStyle" reserve-selection="false">
+              row-key="roleId" reserve-selection="false">
               <el-table-column type="selection" width="55" />
-              <el-table-column prop="roleName" label="名称" align="center" />
-              <el-table-column prop="description" label="描述" align="center" />
-              <!-- <el-table-column label="操作" width="150px" align="center" fixed="right"> -->
+              <el-table-column prop="name" label="名称" />
+              <el-table-column prop="dataScope" label="数据权限" />
+              <el-table-column prop="level" label="角色级别" />
+              <el-table-column :show-overflow-tooltip="true" prop="description" label="描述" />
+              <el-table-column :show-overflow-tooltip="true" width="135px" prop="createTime" label="创建日期" />
               <el-table-column label="操作" width="150px" align="center">
                 <template #default="scope">
                   <div>
-                    <!-- <el-button type="primary" @click="toEdit(scope.row)"><i class="iconfont icon-btn-xiugai"></i></el-button> -->
-                    <el-popconfirm title="是否确认删除？" @confirm="confirmEvent(scope.row.roleId)">
-                      <template #reference>
-                        <el-button type="danger"><i class="iconfont icon-btn-shanchu"></i></el-button>
-                      </template>
-                    </el-popconfirm>
+                    <el-button type="primary" class="filter-item"><i class="iconfont icon-xiugai"></i></el-button>
+                    <el-button type="danger" class="filter-item"><i class="iconfont icon-shanchu"></i></el-button>
                   </div>
                 </template>
               </el-table-column>
@@ -223,10 +196,19 @@ export default defineComponent({
       </el-col>
       <!-- 菜单分配 -->
       <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="7">
-        <menuAllocation :key="menuAllocationKey" :menuCheck="selectArr" @addRoleMenu="addRoleMenu"></menuAllocation>
+        <el-card class="box-card" shadow="never">
+          <template #header>
+            <div class="card-header">
+              <span>菜单分配</span>
+              <el-button type="primary" style="float: right;">保存</el-button>
+            </div>
+          </template>
+          <!-- <el-tree :props="props" :load="loadNode" lazy show-checkbox @check-change="handleCheckChange" /> -->
+          <el-tree :data="treeData" :props="defaultProps" node-key="id" show-checkbox @check-change="handleCheckChange" />
+        </el-card>
       </el-col>
     </el-row>
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="500px" :before-close="handleClose">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="500px">
       <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名称" prop="roleName">
           <el-input v-model="form.roleName" placeholder="名称" />
@@ -243,70 +225,4 @@ export default defineComponent({
   </div>
 </template>
 
-<style lang="scss" scoped>
-.class-box {
-  width: 100%;
-  background-color: #fff;
-  padding: 20px;
-  box-sizing: border-box;
-
-  .tool-wrapper {
-    margin-bottom: 20px;
-
-    .tool-tip {
-      display: flex;
-      align-items: center;
-
-      .iconfont {
-        font-size: 14px;
-        margin-right: 4px;
-      }
-
-    }
-  }
-}
-
-.table {
-  width: 100%;
-
-  .vipimg {
-    margin-left: 6px;
-    height: 16px;
-    width: 16px;
-  }
-
-  .diagnose {
-    color: $primary;
-
-    &.diagnoseTrue {
-      color: #999999;
-    }
-  }
-
-  .price-but {
-    width: 47px;
-    height: 20px;
-    line-height: 20px;
-    border: 1px solid #FF7171;
-    border-radius: 2px;
-    color: #FF7171;
-    font-size: 12px;
-    background-color: transparent;
-    margin-left: 10px;
-    padding: 0;
-  }
-
-}
-
-.pagination {
-  display: flex;
-  justify-content: flex-end;
-  margin: 20px 0;
-}
-
-.card-header {
-  .iconfont {
-    margin-right: 4px;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

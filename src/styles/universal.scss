@@ -44,13 +44,20 @@ body {
   .filter-item {
     display: inline-block;
     vertical-align: middle;
-    margin: 0 3px 10px 0;
+    margin: 0 5px 0 0;
 
     input {
       width: 100%;
       height: 30.5px;
       line-height: 30.5px;
     }
+  }
+
+  .crud-search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 10px;
   }
 
   .date-item {
@@ -60,4 +67,22 @@ body {
     height: 30.5px !important;
     width: 230px !important;
   }
+
+  .crud-opts {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

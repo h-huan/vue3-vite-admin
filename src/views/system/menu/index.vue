@@ -2,17 +2,17 @@
  * @Author: h-huan
  * @Date: 2023-04-24 10:35:18
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-12 09:40:29
+ * @LastEditTime: 2023-06-30 14:23:30
  * @Description: 
 -->
 <script lang="ts">
 import { defineComponent, reactive, toRefs, ref, computed } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { ElNotification } from 'element-plus'
+import { ElMessageBox, ElMessage } from 'element-plus'
 // import { getMenus, add, del, edit } from '/@/api/system/menu'
+import { getMenuList } from "/@/api/system/menu";
 import IconSelect from '/@/components/IconSelect/index.vue'
 import TreeSelects from '/@/components/TreeSelect/index.vue'
-import { dictFilters } from '/@/utils/index'
 
 
 const defaultForm = { description: null, nodeIcon: null, nodeId: 0, nodeName: null, nodeType: null, orderVal: 999, parentid: 0, target: '1', url: null }
@@ -23,8 +23,11 @@ export default defineComponent({
   setup() {
 
     const ruleFormRef = ref<FormInstance>()
-    const loading = ref(true)
+    const loading = ref(false)
     const state = reactive({
+      query: {
+        username: ''
+      },
       dialogVisible: false,
       dialogTitle: '新增',
       multipleSelection: [],
@@ -39,74 +42,21 @@ export default defineComponent({
         children: "menuChildList",
         label: "nodeName"
       },
-      selectOptions: [
-        {
-          value: '1',
-          label: '当前窗口',
-        },
-        {
-          value: '2',
-          label: '新窗口',
-        },
-      ]
     })
 
     // 获取菜单列表
-    const getMenuList = () => {
-      // getMenus().then((data: any) => {
-      //   state.dialogVisible = false
-      //   state.form = defaultForm
-      //   state.data = data.data.list
-      //   loading.value = false
-      // })
-    }
-    getMenuList()
+    const getMenuLists = () => {
+      getMenuList().then((res: any) => {
+        if (res.code == 200) state.data = res.data
+        loading.value = false
+      })
 
-
-
-    // 新增
-    const toAdd = () => {
-      state.form = defaultForm
-      state.dialogTitle = "新增"
-      state.dialogVisible = true
     }
-    // 编辑
-    const toEdit = (data) => {
-      state.dialogTitle = "修改"
-      state.form = Object.assign({}, data)
-      state.dialogVisible = true
-    }
-    // 删除
-    const toDel = (id?: number) => {
-      let ids: number
-      if (id) {
-        ids = id
-      } else {
-        if (state.multipleSelection && state.multipleSelection.length !== 1) {
-          ElNotification.warning('请选择一条信息')
-          return
-        } else {
-          ids = state.multipleSelection[0].nodeId
-        }
-      }
-      // 删除
-      // del({ nodeId: ids }).then((res: any) => {
-      //   if (res.code === 0) {
-      //     getMenuList()
-      //     ElNotification.success('删除成功')
-      //   }
-      // })
-    }
+    getMenuLists()
 
     // 多选
     const handleSelectionChange = (val) => {
       state.multipleSelection = val;
-    }
-
-    // 关闭提示
-    const handleClose = (done: () => void) => {
-      done()
-      state.form = defaultForm
     }
 
     // 提交表单
@@ -142,32 +92,51 @@ export default defineComponent({
       if (!formEl) return
       formEl.resetFields()
     }
-
-    // 选中图标
-    const selected = (name) => {
-      state.form.nodeIcon = name
+    const toEdit = (data) => {
+      // state.dialogVisible = true
+      // state.form = Object.assign({}, data);
     }
 
-    const confirmEvent = (id?: number) => {
-      toDel(id)
+    const toDelete = () => {
+      ElMessageBox.confirm(
+        '是否确认删除',
+        '警告',
+        {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning',
+        }
+      )
+        .then(() => {
+          ElMessage({
+            type: 'success',
+            message: '删除成功',
+          })
+        })
+        .catch(() => {
+
+        })
     }
 
-    // const isshow = computed((data) => count.value + 1)
+    const load = (row, treeNode, resolve) => {
+      console.log(row, treeNode);
 
-
+      setTimeout(() => {
+        resolve([
+          { title: '组件管理', icon: 'icon-text', menuSort: 3, component: '/components', hidden: '0', createTime: '2023-06-01' },
+          { title: '组件管理', icon: 'icon-text', menuSort: 3, component: '/components', hidden: '0', createTime: '2023-06-01' },
+        ])
+      }, 1000)
+    }
     return {
-      toAdd,
-      toEdit,
-      toDel,
+      ruleFormRef,
+      loading,
       handleSelectionChange,
-      handleClose,
       submitForm,
       resetForm,
-      selected,
-      ruleFormRef,
-      confirmEvent,
-      dictFilters,
-      loading,
+      toEdit,
+      toDelete,
+      load,
       ...toRefs(state)
     }
   }
@@ -175,52 +144,60 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="class-box">
-    <div class="tool-wrapper">
-      <div class="tool-tip">
-        <el-button type="primary" @click="toAdd"><i class="iconfont icon-zengjia"></i>新增</el-button>
+  <div class="app-container">
+    <div class="head-container">
+      <div class="crud-search">
+        <el-input v-model="query.username" clearable placeholder="输入名称" style="width: 200px;" class="filter-item" />
+        <el-button type="success" class="filter-item"><template #icon><i
+              class="iconfont icon-sousuo"></i></template>搜索</el-button>
+        <el-button type="warning" class="filter-item"><template #icon><i
+              class="iconfont icon-zhongzhi"></i></template>重置</el-button>
+      </div>
+      <div class="crud-opts">
+        <span class="crud-opts-left">
+          <el-button type="primary" class="filter-item">
+            <template #icon>
+              <i class="iconfont icon-xinzeng"></i>
+            </template>
+            新增</el-button>
+          <el-button type="success" class="filter-item" @click="dialogVisible = true"><template #icon><i
+                class="iconfont icon-xiugai"></i></template>修改</el-button>
+          <el-button type="danger" class="filter-item"><template #icon><i
+                class="iconfont icon-shanchu"></i></template>删除</el-button>
+          <el-button type="warning" class="filter-item"><template #icon><i
+                class="iconfont icon-daoru"></i></template>导出</el-button>
+        </span>
+        <div class="crud-opts-right">
+          <el-button><i class="iconfont icon-sousuo"></i></el-button>
+          <el-button><i class="iconfont icon-zhongzhi"></i></el-button>
+          <el-button><i class="iconfont icon-nine-squares-full"></i></el-button>
+        </div>
       </div>
     </div>
     <div class="table">
-      <el-table v-loading="loading" :data="data" style="width: 100%" @selection-change="handleSelectionChange"
-        row-key="nodeId" :tree-props="{ children: 'menuChildList' }">
-        <el-table-column type="selection" width="55" sortable />
-        <el-table-column prop="nodeName" label="名称" align="center" sortable />
-        <el-table-column prop="nodeIcon" label="图标" align="center">
-          <template #default="scope">
-            <i class="iconfont" :class="[scope.row.nodeIcon ? scope.row.nodeIcon : '']" />
-          </template>
-        </el-table-column>
-        <el-table-column prop="url" label="链接" align="center" />
-        <el-table-column prop="isShow" label="是否显示" align="center">
-          <template #default="scope">
-            <span>{{ scope.row.isShow }}</span>
-            <el-switch v-model="scope.row.isShow" active-value="100" inactive-value="0" />
-          </template>
-        </el-table-column>
-        <el-table-column prop="visturl" label="链接" align="center" />
-        <el-table-column prop="target" label="窗口方式" align="center">
-          <template #default="scope">
-            <span>{{ dictFilters(selectOptions, scope.row.target) }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="description" label="描述" align="center"></el-table-column>
+      <el-table v-loading="loading" :data="data" row-key="id" lazy :load="load" @selection-change="handleSelectionChange"
+        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" style="width: 100%">
+        <el-table-column type="selection" width="55" />
+        <el-table-column prop="title" label="菜单标题" align="center" />
+        <el-table-column prop="icon" label="图标" align="center" />
+        <el-table-column prop="menuSort" label="排序" align="center" />
+        <el-table-column prop="component" label="组件路径" align="center" />
+        <el-table-column prop="hidden" label="可见" align="center" />
+        <el-table-column prop="createTime" label="创建日期" align="center" />
         <el-table-column label="操作" width="150px" align="center" fixed="right">
           <template #default="scope">
             <div>
-              <el-button type="primary" @click="toEdit(scope.row)"><i class="iconfont icon-btn-xiugai"></i></el-button>
-              <el-popconfirm title="是否确认删除？" @confirm="confirmEvent(scope.row.nodeId)">
-                <template #reference>
-                  <el-button type="danger"><i class="iconfont icon-btn-shanchu"></i></el-button>
-                </template>
-              </el-popconfirm>
+              <el-button type="primary" class="filter-item" @click="toEdit(scope.row)"><i
+                  class="iconfont icon-xiugai"></i></el-button>
+              <el-button type="danger" class="filter-item" @click="toDelete"><i
+                  class="iconfont icon-shanchu"></i></el-button>
             </div>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <!-- <el-dialog v-model="dialogVisible" :title="dialogTitle" width="400px" :before-close="handleClose"> -->
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="500px" :before-close="handleClose">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="500px">
       <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="名称" prop="nodeName">
           <el-input v-model="form.nodeName" placeholder="名称" />
@@ -235,7 +212,7 @@ export default defineComponent({
               </el-input>
             </template>
             <template #default>
-              <IconSelect @selected="selected"></IconSelect>
+              <!-- <IconSelect @selected="selected"></IconSelect> -->
             </template>
           </el-popover>
         </el-form-item>
@@ -250,12 +227,6 @@ export default defineComponent({
             <TreeSelects v-model="form.parentid" :treeData="data" :defaultProps="defaultProps"></TreeSelects>
           </template>
         </el-form-item>
-        <el-form-item label="窗口类型">
-          <!-- <el-input v-model="form.target" placeholder="窗口类型" /> -->
-          <el-select v-model="form.target" placeholder="窗口类型">
-            <el-option v-for="item in selectOptions" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-form-item>
         <el-form-item label="描述">
           <el-input v-model="form.description" :rows="2" type="textarea" placeholder="描述" />
         </el-form-item>
@@ -268,58 +239,4 @@ export default defineComponent({
   </div>
 </template>
 
-<style lang="scss" scoped>
-.class-box {
-  width: 100%;
-  background-color: #fff;
-  padding: 20px;
-  box-sizing: border-box;
-
-  .tool-wrapper {
-    margin-bottom: 20px;
-
-    .tool-tip {
-      display: flex;
-      align-items: center;
-
-      .iconfont {
-        font-size: 14px;
-        margin-right: 4px;
-      }
-
-    }
-  }
-}
-
-.table {
-  width: 100%;
-
-  .vipimg {
-    margin-left: 6px;
-    height: 16px;
-    width: 16px;
-  }
-
-  .diagnose {
-    color: $primary;
-
-    &.diagnoseTrue {
-      color: #999999;
-    }
-  }
-
-  .price-but {
-    width: 47px;
-    height: 20px;
-    line-height: 20px;
-    border: 1px solid #FF7171;
-    border-radius: 2px;
-    color: #FF7171;
-    font-size: 12px;
-    background-color: transparent;
-    margin-left: 10px;
-    padding: 0;
-  }
-
-}
-</style>
+<style lang="scss" scoped></style>

@@ -4,7 +4,7 @@ import { defineComponent, reactive, toRefs } from 'vue'
 export default defineComponent({
   name: 'Search',
   props: {
-    title: {
+    butName: {
       type: String,
       default: '搜索'
     },
@@ -36,7 +36,7 @@ export default defineComponent({
         <i class="iconfont icon-sousuo"></i>
       </template>
       <template #append>
-        <el-button type="primary" @click="getSearch">{{ title }}</el-button>
+        <el-button type="primary" @click="getSearch">{{ butName }}</el-button>
       </template>
     </el-input>
   </div>

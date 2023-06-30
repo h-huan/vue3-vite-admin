@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-26 10:43:04
  * @LastEditors: h-huan
- * @LastEditTime: 2023-06-21 11:50:53
+ * @LastEditTime: 2023-06-30 15:27:14
  * @Description: 
 -->
 <script lang="ts">
@@ -25,6 +25,8 @@ export default defineComponent({
     const state = reactive({
       tableData: [],
       form: defaultForm,
+      multipleSelection: {},
+
       rules: {
         username: [
           { required: true, message: '请输入名称', trigger: 'blur' },
@@ -42,7 +44,7 @@ export default defineComponent({
       pagination: defaultPagination,
       dialogVisible: false,
       query: {
-        blurry: ''
+        username: ''
       }
     })
 
@@ -110,6 +112,11 @@ export default defineComponent({
 
         })
     }
+    // 多选
+    const handleSelectionChange = (val) => {
+
+      state.multipleSelection = val;
+    }
     return {
       loading,
       ruleFormRef,
@@ -119,6 +126,7 @@ export default defineComponent({
       open,
       submitForm,
       resetForm,
+      handleSelectionChange,
       ...toRefs(state)
     }
   }
@@ -128,8 +136,8 @@ export default defineComponent({
 <template>
   <div class="app-container">
     <div class="head-container">
-      <div>
-        <el-input v-model="query.blurry" clearable placeholder="输入名称" style="width: 200px;" class="filter-item" />
+      <div class="crud-search">
+        <el-input v-model="query.username" clearable placeholder="输入名称" style="width: 200px;" class="filter-item" />
         <el-button type="success" class="filter-item"><template #icon><i
               class="iconfont icon-sousuo"></i></template>搜索</el-button>
         <el-button type="warning" class="filter-item"><template #icon><i
@@ -157,7 +165,7 @@ export default defineComponent({
       </div>
     </div>
     <div class="table">
-      <el-table v-loading="loading" :data="tableData" style="width: 100%">
+      <el-table v-loading="loading" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" sortable />
         <el-table-column prop="username" label="用户" align="center" />
         <el-table-column prop="nickName" label="昵称" align="center" />
@@ -208,15 +216,4 @@ export default defineComponent({
   </div>
 </template>
 
-<style lang="scss" scoped>
-.crud-opts {
-  display: flex;
-  justify-content: space-between;
-}
-
-.pagination {
-  display: flex;
-  justify-content: flex-end;
-  margin: 20px 0;
-}
-</style>
+<style lang="scss" scoped></style>

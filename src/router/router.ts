@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-27 09:07:46
  * @LastEditors: h-huan
- * @LastEditTime: 2023-06-20 17:53:09
+ * @LastEditTime: 2023-06-30 16:55:11
  * @Description: 
  */
 
@@ -116,6 +116,12 @@ export const routes: RouteRecordRaw[] = [
         name: 'Form',
         path: '/form',
         component: () => import('/@/views/form/index.vue'),
+        meta: { title: '表单', icon: 'dashboard', affix: false }
+      },
+      {
+        name: 'Icon',
+        path: '/icon',
+        component: () => import('/@/views/icon/index.vue'),
         meta: { title: '表单', icon: 'dashboard', affix: false }
       },
       {

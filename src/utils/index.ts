@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-23 15:32:54
  * @LastEditors: h-huan
- * @LastEditTime: 2023-04-28 09:42:07
+ * @LastEditTime: 2023-06-28 17:43:38
  * @Description: 
  */
 
@@ -43,7 +43,7 @@ export function parseTime(time, cFormat?: string) {
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
     if (result.length > 0 && value < 10) {
       value = '0' + value
     }
@@ -82,10 +82,10 @@ interface options {
  * @param {string} val
  * @return {*}
  */
-export function dictFilters(options?:Array<options>, val?:string) {
+export function dictFilters(options?: Array<options>, val?: string) {
   for (let i = 0; i < options.length; i++) {
-    if(options[i]){
-      options[i].value=val
+    if (options[i]) {
+      options[i].value = val
       return options[i].label
     }
   }

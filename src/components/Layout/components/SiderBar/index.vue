@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-06 14:58:55
  * @LastEditors: h-huan
- * @LastEditTime: 2023-06-20 17:44:24
+ * @LastEditTime: 2023-06-29 11:14:23
  * @Description: 
 -->
 <script lang="ts">
@@ -38,7 +38,6 @@ export default defineComponent({
     })
     getMenuList().then((res: any) => {
       if (res.code == 200) state.menuLists = res.data
-
     })
 
     return {
@@ -64,18 +63,18 @@ export default defineComponent({
           <el-sub-menu v-if="item.childrens" :index="item.url" class="hh-menu-item">
             <template #title>
               <i :class="[item.icon ? item.icon : '', 'iconfont']" class="hh-menu-icon"></i>
-              <span class="hh-menu_text">{{ item.text }}</span>
+              <span class="hh-menu_text">{{ item.title }}</span>
             </template>
             <el-menu-item v-for="(itemTwo, jndex) in item.childrens" :key="jndex" :index="itemTwo.url"
               class="hh-menu-item">
               <i :class="[itemTwo.icon ? itemTwo.icon : '', 'iconfont']" class="hh-menu-icon"></i>
-              <span class="hh-menu_text">{{ (itemTwo as any).name }}</span>
+              <span class="hh-menu_text">{{ (itemTwo as any).title }}</span>
             </el-menu-item>
           </el-sub-menu>
           <el-menu-item :index="item.url" v-else class="hh-menu-item">
             <i :class="[item.icon ? item.icon : '', 'iconfont']" class="hh-menu-icon"></i>
             <template #title>
-              <span class="hh-menu_text">{{ item.text }}</span>
+              <span class="hh-menu_text">{{ item.title }}</span>
             </template>
           </el-menu-item>
         </template>
