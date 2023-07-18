@@ -2,10 +2,10 @@
  * @Author: h-huan
  * @Date: 2023-03-25 11:58:23
  * @LastEditors: h-huan
- * @LastEditTime: 2023-06-14 10:29:45
+ * @LastEditTime: 2023-07-18 15:05:22
  * @Description: 
  */
-import { createRouter, createWebHashHistory, RouterOptions, Router } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory, RouterOptions, Router } from 'vue-router'
 //由于router的API默认使用了类型进行初始化，内部包含类型定义，所以本文内部代码中的所有数据类型是可以省略的
 //RouterRecordRaw是路由组件对象
 import { routes } from "./router";
@@ -18,7 +18,8 @@ const whiteList = ['/login']// no redirect whitelist
 
 // RouterOptions是路由选项类型
 export const options: RouterOptions = {
-  history: createWebHashHistory(),
+  // history: createWebHashHistory(), // hash 模式
+  history: createWebHistory(),  // history 模式
   routes
 }
 

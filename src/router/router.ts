@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-27 09:07:46
  * @LastEditors: h-huan
- * @LastEditTime: 2023-06-30 16:55:11
+ * @LastEditTime: 2023-07-18 15:37:59
  * @Description: 
  */
 
@@ -37,7 +37,7 @@ export const routes: RouteRecordRaw[] = [
     children: [
       {
         path: '/redirect/:path(.*)',
-        component: (resolve) => import('/@/views/features/redirect.vue', resolve)
+        component: () => import('/@/views/features/redirect.vue')
       }
     ]
   },

@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-03-21 10:05:06
  * @LastEditors: h-huan
- * @LastEditTime: 2023-05-09 11:15:53
+ * @LastEditTime: 2023-07-18 15:58:23
  * @Description: 
  */
 import { loadEnv, defineConfig } from 'vite'
@@ -23,6 +23,7 @@ import viteCompression from "vite-plugin-compression";
 
 // 生产环境引入element-plus
 import fullImportPlugin from './vitePlugin/fullImportPlugin'
+import ElementPlus from 'unplugin-element-plus/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -32,7 +33,7 @@ export default defineConfig(({ mode }) => {
 
   const config = {
     root: path.resolve(__dirname),
-    base: './',
+    base: '/',
     /* 配置组件中通用变量 */
     resolve: {
       alias: {
@@ -93,7 +94,11 @@ export default defineConfig(({ mode }) => {
 
   if (NODE_ENV === 'development') {
     config.plugins.push(
-      fullImportPlugin()
+      fullImportPlugin(),
+      // 防止 自定义颜色无效
+      ElementPlus({
+        useSource: true,
+      }),
     )
   } else {
     config.plugins.push(AutoImport({
