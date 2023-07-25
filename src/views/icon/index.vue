@@ -2,7 +2,7 @@
  * @Author: h-huan
  * @Date: 2023-04-24 16:11:58
  * @LastEditors: h-huan
- * @LastEditTime: 2023-06-30 17:31:03
+ * @LastEditTime: 2023-07-25 17:35:17
  * @Description: 
 -->
 <script lang="ts">
@@ -34,7 +34,7 @@ export default defineComponent({
     // 根据名字搜索
     const getSearch = (val) => {
       if (val) {
-        state.iconList = state.iconList.filter((item: any) => item.font_class.includes(val))
+        state.iconList = state.iconList.filter((item: any) => item.name.includes(val))
       } else {
         getIconList()
       }
@@ -67,7 +67,7 @@ export default defineComponent({
       <div v-for="(item, index) in iconList" :key="index" class="icon-item">
         <!-- <svg-icon :icon-class="item" style="height: 30px;width: 16px;" /> -->
         <i class="iconfont" :class="[item.font_class ? 'icon-' + item.font_class : '']"></i>
-        <span>icon-{{ item.font_class }}</span>
+        <span>{{ item.name }}</span>
       </div>
     </div>
   </div>
